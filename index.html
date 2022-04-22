@@ -43,7 +43,15 @@
         {type:"Binary Tree",level:1,question:"Binary Tree level order",file:"bt_level_order.html"},
         {type:"Binary Tree",level:1,question:"Binary Tree Right side view",file:"bt_right_side_view.html"},
     ];
-    let questions=[...matrixquestions,...binaryTreeQuestion];
+    let recursionQuestion=[
+        {type:"Recursion",level:2,question:"Permutation of array or string",file:"recusion_permutation_of_array_string.html"},
+        {type:"Recursion",level:3,question:"Find all combinations of elements seperated n distance",file:"all_combinations_of_elements_seperated_n.html"},
+        {type:"Recursion",level:3,question:"N-queen.html",file:"n-queen.html"},
+        
+    ];
+
+
+    let questions=[...matrixquestions,...binaryTreeQuestion,...recursionQuestion];
     let html="";
     for(let quest of questions){
         let level="Easy";

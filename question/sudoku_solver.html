@@ -1,0 +1,156 @@
+
+<style>
+    .grid{
+        height: 40px;
+        width: 40px;
+        background: gold;
+        border: 1px solid black;
+        border-top-color: black;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-left-color: black;
+        border-left-style: solid;
+        border-left-width: 1px;
+        text-align: center;
+        line-height: 40px;
+    }
+</style>
+<div id="ss">
+
+</div>
+<script>
+    let sudoku = [
+        [3, 0, 6, 5, 0, 8, 4, 0, 0],
+        [5, 2, 0, 0, 0, 0, 0, 0, 0],
+        [0, 8, 7, 0, 0, 0, 0, 3, 1,],
+        [0, 0, 3, 0, 1, 0, 0, 8, 0],
+        [9, 0, 0, 8, 6, 3, 0, 0, 5],
+        [0, 5, 0, 0, 9, 0, 6, 0, 0],
+        [1, 3, 0, 0, 0, 0, 2, 5, 0],
+        [0, 0, 0, 0, 0, 0, 0, 7, 4],
+        [0, 0, 5, 2, 0, 6, 3, 0, 0]];
+
+        let tmpHtml="";
+        let ii=0;
+    for (let el of sudoku) {
+        tmpHtml+=`<div style="display:flex;">`;
+            let jj=0;
+        for(let each of el){
+            tmpHtml+=`<div class="grid" id="${ii+""+jj}">${each}</div>`;
+            jj++;
+        }
+        tmpHtml+=`</div>`;
+        ii++;
+    }
+    document.getElementById("ss").innerHTML=tmpHtml;
+    
+
+    function isSafe(sudoku, num, row, col) {
+        for (let i = 0; i < sudoku.length; i++) {
+            if (sudoku[row][i] == num) return false;
+        }
+        for (let i = 0; i < sudoku.length; i++) {
+            if (sudoku[i][col] == num) return false;
+        }
+        for (let i = 0; i < 9; i++) {
+            const m = 3 * Math.floor(row / 3) + Math.floor(i / 3);
+            const n = 3 * Math.floor(col / 3) + i % 3;
+            if (sudoku[m][n] == num) return false;
+        }
+        return true;
+    }
+
+    /*
+    function solveSudoku1(sudoku, row, col) {
+        if (row == 8 && col == 9) return true;
+        if (col == 9) {
+            row++;
+            col = 0;
+        }
+        if (sudoku[row][col] != 0) return solveSudoku(sudoku, row, col + 1);
+        for (let j = 1; j <= 9; j++) {
+            if (isSafe(sudoku, j, row, col)) {
+                sudoku[row][col] = j;
+                if (solveSudoku(sudoku, row, col + 1)) {
+                    return true;
+                }
+                sudoku[row][col] = 0;
+            }
+        }
+        return false;
+    }
+    */
+    //console.log(solveSudoku1(sudoku, 0, 0));
+    console.log(solveSudoku2(sudoku));
+    for (let el of sudoku) {
+        console.log(el.join(" "));
+    }
+
+    async function changee(i,j,k){
+        setTimeout(()=>{
+            document.getElementById(i+""+j).innerHTML=k;
+        },1000,i,j,k);
+    }
+    /*
+    async function solveSudoku2(sudoku) {
+        
+            for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (sudoku[i][j] == 0) {
+
+                    for (let k = 1; k <= 9; k++) {
+                        //
+                        if (isSafe(sudoku, k, i, j)) {
+                            setTimeout(()=>{
+                                sudoku[i][j] = k;
+                                document.getElementById(i+""+j).innerHTML=k;
+                            },100,i,j,k);
+                            
+                            if (solveSudoku2(sudoku)) {
+                                return true;
+                            } else {
+                                sudoku[i][j] = 0;
+                            }
+                            
+                        }
+                        //
+                    }
+                    return false;
+
+                }
+            }
+        }
+        return true;
+        
+        
+    }
+    */
+
+    function solveSudoku2(sudoku) {
+        
+            for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (sudoku[i][j] == 0) {
+
+                    for (let k = 1; k <= 9; k++) {
+                        //
+                        if (isSafe(sudoku, k, i, j)) {
+                            sudoku[i][j] = k;
+                            if (solveSudoku2(sudoku)) {
+                                return true;
+                            } else {
+                                sudoku[i][j] = 0;
+                            }
+                            
+                        }
+                    }
+                    return false;
+
+                }
+            }
+        }
+        return true;
+        
+        
+    }
+</script>
