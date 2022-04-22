@@ -1,0 +1,80 @@
+<script>
+const testMatrix = [
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9, 10, 11, 12],
+  [13, 14, 15, 16]
+];
+//dfs();
+
+function dfs(){
+	var seen=new Set();
+	for(let i=0;i<testMatrix.length;i++){
+  	for(let j=0;j<testMatrix[0].length;j++){
+  	//console.log(i,j);
+    	checkDfs(seen,i,j);
+    }
+  }
+}
+function checkDfs(seen,i,j){
+		let ii= (0 <= i) && (i < testMatrix.length) ;
+    let jj= (0 <= j) && (j < testMatrix[0].length) ;
+    if(!ii || !jj) return false;
+    if(seen.has(i+"-"+j)) return false;
+    seen.add(i+"-"+j);
+    console.log(testMatrix[i][j]);
+    checkDfs(seen,i,j+1);
+    checkDfs(seen,i-1,j);
+		checkDfs(seen,i+1,j);
+		checkDfs(seen,i,j-1);
+		return true;
+}
+
+bfs();
+function bfs(){
+	var seen=new Set();
+	let queue=[0+","+0];
+	//seen.add([0,0])
+	while(queue.length>0){
+		let cur=queue.shift();
+		//console.log(cur);
+		let exCur=cur.split(",");
+		let i=exCur[0];
+		let j=exCur[1];
+		let ii= (0 <= i) && (i < testMatrix.length) ;
+		let jj= (0 <= j) && (j < testMatrix[0].length) ;
+		if(!ii || !jj) continue;
+		if(seen.has(i+","+j)){
+			continue;
+		}else{
+			seen.add(i+","+j);
+		}
+		console.log(testMatrix[i][j],i,j);
+		
+		queue.push(i+","+(parseInt(j)+1));
+		queue.push((parseInt(i)-1)+","+j);
+		queue.push((parseInt(i)+1)+","+j);
+		queue.push(i+","+(parseInt(j)-1));
+		//console.log(queue);
+	}
+	for(let i=0;i<testMatrix.length;i++){
+  	for(let j=0;j<testMatrix[0].length;j++){
+  	//console.log(i,j);
+    	//checkBfs(seen,i,j);
+    }
+  }
+}
+function checkBfs(seen,i,j){
+		let ii= (0 <= i) && (i < testMatrix.length) ;
+    let jj= (0 <= j) && (j < testMatrix[0].length) ;
+    if(!ii || !jj) return false;
+    if(seen.has(i+"-"+j)) return false;
+    seen.add(i+"-"+j);
+    console.log(testMatrix[i][j]);
+    checkDfs(seen,i,j+1);
+    checkDfs(seen,i-1,j);
+		checkDfs(seen,i+1,j);
+		checkDfs(seen,i,j-1);
+		return true;
+}
+</script>

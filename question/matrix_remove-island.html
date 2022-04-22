@@ -1,0 +1,57 @@
+<script>
+function removeIslands(matrix) {
+  let visited=new Set();
+  let updateLoc=[];
+	for(let i=0;i<matrix.length;i++){
+  	for(let j=0;j<matrix[0].length;j++){
+    	let array=[];
+    	if(dfs(matrix,i,j,visited,array)){
+      	updateLoc.push(array)
+      }
+    }
+  }
+  for(let arr of updateLoc){
+  	let ispossible=true;
+  	for(let arrr of arr){
+    	if(wallCheck(matrix,arrr.i,arrr.j)==false){
+      ispossible=false;
+      	break;
+      }
+    }
+    if(ispossible==true){
+    	for(let arrr of arr){
+				matrix[arrr.i][arrr.j]=0;
+			}
+    }
+   }
+  return matrix;
+}
+function dfs(matrix,i,j,visited,array){
+	let iCheck= 0 <= i && i < matrix.length;
+  let jCheck= 0 <= j && j < matrix[0].length;
+  
+  if(!iCheck || !jCheck) return false;
+  if(matrix[i][j]==0) return false;
+  
+	let tmp=i+"-"+j;
+  if(!visited.has(tmp)){
+  	visited.add(tmp);
+  }else{
+  	return false;
+  }
+  array.push({i:i,j:j});
+  dfs(matrix,i,j+1,visited,array);
+  dfs(matrix,i+1,j,visited,array);
+  dfs(matrix,i,j-1,visited,array);
+  dfs(matrix,i-1,j,visited,array);
+  return true;
+}
+function wallCheck(matrix,i,j){
+	if(i == 0 || i == matrix.length-1) return false;
+  if(j == 0 || j == matrix[0].length-1) return false;
+  return true;
+}
+// Do not edit the line below.
+exports.removeIslands = removeIslands;
+
+</script>

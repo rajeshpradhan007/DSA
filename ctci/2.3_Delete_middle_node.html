@@ -1,0 +1,45 @@
+<script>
+class Node{
+	constructor(val){
+		this.value=val;
+		this.next=null;
+	}
+}
+class LinkedList{
+	constructor(){
+		this.head=null;
+	}
+	push(el){
+		let newNode=new Node(el);
+		if(this.head==null){
+			this.head=newNode;
+		}else{
+			let cur=this.head;
+			while(cur){
+				if(cur.next==null){
+					cur.next=newNode;
+					return
+				}else{
+					cur=cur.next;
+				}				
+				
+			}
+		}
+	}
+	deleteMiddleNode(node){
+		if(node==null || node.next==null) return 0;
+		let next=node.next;
+		node.next=next.next;
+		node.value=next.value;
+	}
+}
+let ll=new LinkedList;
+ll.push('a');
+ll.push('b');
+ll.push('c');
+ll.push('d');
+ll.push('e');
+ll.push('f');
+
+console.log(ll);
+</script>

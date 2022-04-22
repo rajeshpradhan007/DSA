@@ -1,0 +1,105 @@
+<script>
+class Node{
+	constructor(val){
+		this.value=val;
+		this.next=null;
+	}
+}
+class LinkedList{
+	constructor(){
+		this.head=null;
+	}
+	push(el){
+		let newNode=new Node(el);
+		if(this.head==null){
+			this.head=newNode;
+		}else{
+			let cur=this.head;
+			while(cur){
+				if(cur.next==null){
+					cur.next=newNode;
+					return
+				}else{
+					cur=cur.next;
+				}				
+				
+			}
+		}
+	}
+	partition(head, partition){
+		var left;
+		  var right;
+		  var currLeft = null;
+		  var currRight = null;
+
+		  var node = head;
+		  while (node !== null) {
+			if (node.value < partition) {
+			  if (currLeft === null) {
+				left = node;
+				currLeft = left;
+			  } else {
+				currLeft.next = node;
+				currLeft = currLeft.next;
+			  }
+			} else {
+			  if (currRight === null) {
+				right = node;
+				currRight = right;
+			  } else {
+				currRight.next = node;
+				currRight = currRight.next;
+			  }
+			}
+			node = node.next;
+		  }
+		  currRight.next = null;
+		  currLeft.next = right; // connect two partitions together
+		  return left; // return head of new linkedList
+	}
+	partition2(list, val) {
+	  let node = list,
+		smallerHead, smallerTail, largerHead, largerTail;
+
+	  smallerHead = smallerTail = largerHead = largerTail = null;
+	  while (node) {
+		let next = node.next;
+		node.next = null;
+		if (node.value >= val) {
+		  if (!largerTail) {
+			largerHead = largerTail = node;
+		  }
+		  else {
+			largerTail = largerTail.next = node;
+		  }
+		}
+		else if (node.value < val) {
+		  if (!smallerHead) {
+			smallerHead = smallerTail = node;
+		  }
+		  else {
+			smallerTail = smallerTail.next = node;
+		  }
+		}
+		node = next;
+	  }
+
+	  if (smallerTail) {
+		smallerTail.next = largerHead;
+	  }
+	  return smallerHead || largerHead;
+	}
+	
+}
+let ll=new LinkedList;
+ll.push(3);
+ll.push(5);
+ll.push(8);
+ll.push(5);
+ll.push(10);
+ll.push(2);
+ll.push(1);
+console.log(ll);
+//ll.partition(ll.head,5);
+//ll.partition2(ll.head,5);
+</script>

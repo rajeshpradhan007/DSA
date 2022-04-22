@@ -1,0 +1,37 @@
+<script>
+let matrix=
+[
+[1,2,3,4],
+[5,6,7,8],
+[9,10,11,12],
+[13,14,15,16]
+];
+dfshelper(matrix);
+function dfs(matrix,i,j,seen){
+	let icheck = 0 <= i && i < matrix.length;
+  let jcheck = 0 <= j && j < matrix[0].length;
+  if(!icheck || !jcheck) return false;
+  
+	let tmp=i+"-"+j;
+  
+  if(!seen.has(tmp)){
+  	seen.add(tmp);
+  }else{
+  	return false;
+  }
+  console.log(matrix[i][j]);
+  dfs(matrix,i,j+1,seen);
+  dfs(matrix,i+1,j,seen);
+  dfs(matrix,i,j-1,seen);
+  dfs(matrix,i-1,j,seen);
+  return true;
+}
+function dfshelper(matrix){
+	let seen=new Set();
+	for(let i=0;i<matrix.length;i++){
+  	for(let j=0;j<matrix[i].length;j++){
+    	dfs(matrix,i,j,seen);
+    }
+  }
+}
+</script>

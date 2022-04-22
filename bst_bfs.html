@@ -1,0 +1,137 @@
+<script>
+    class Node{
+        constructor(val){
+            this.value=val;
+            this.left=null;
+            this.right=null;
+        }
+    }
+    class traverse{
+        constructor(){
+            this.path=[];
+            this.root=null;
+        }
+        push(el){
+            let node=new Node(el);
+            if(!this.root){
+                this.root=node;
+            }else{
+                let cur=this.root;
+                while(true){
+                    if(cur.value==el) return;
+                    if(cur.value > el){
+                        if(cur.left==null){
+                            cur.left=node;
+                            return;
+                        }
+                        cur=cur.left;
+                    } 
+                     if(cur.value < el){
+                        if(cur.right==null){
+                            cur.right=node;
+                            return;
+                        }
+                        cur=cur.right;
+                    }
+                }
+            }
+        }
+        BFS(){
+            let path=[];
+            let queue=[];
+            let cur;
+            queue.push(this.root);
+            while(queue.length){
+                cur=queue.shift();
+                path.push(cur.value);
+                if(cur.left) queue.push(cur.left);
+                if(cur.right) queue.push(cur.right);
+                
+            }
+            return path;
+        }
+        DFSIN(){
+            let path=[];
+            let cur=this.root;
+            function gg(cur){
+				if(cur.left==null && cur.right==null){
+					path.push(cur.value);
+					return;
+				} 
+				if(cur.left!=null){
+					gg(cur.left);
+				}
+				path.push(cur.value);
+				if(cur.right!=null){
+					gg(cur.right);
+				}
+				
+			}
+			gg(cur);
+			return path;
+        }
+		DFSPRE(){
+            let path=[];
+            let cur=this.root;
+            function gg(cur){
+				path.push(cur.value);
+				if(cur.left==null && cur.right==null){
+					return;
+				} 
+				if(cur.left!=null){
+					gg(cur.left);
+				}
+				
+				if(cur.right!=null){
+					gg(cur.right);
+				}
+				
+			}
+			gg(cur);
+			return path;
+        }
+		DFSPOST(){
+            let path=[];
+            let cur=this.root;
+            function gg(cur){
+				
+				if(cur.left==null && cur.right==null){
+					path.push(cur.value);
+					return;
+				} 
+				if(cur.left!=null){
+					gg(cur.left);
+				}
+				
+				if(cur.right!=null){
+					gg(cur.right);
+				}
+				path.push(cur.value);
+			}
+			gg(cur);
+			return path;
+        }
+    }
+    let tt=new traverse();
+	let stt=[25,15,50,10,22,35,70,4,12,18,24,31,44,66,90];
+	for(let i in stt){
+		tt.push(stt[i]);
+	}
+    console.log(tt);
+    console.log(tt.BFS());
+	console.log('================');
+	console.log('DFS In order');
+    console.log(tt.DFSIN().toString());
+	console.log('================');
+	console.log('DFS Pre order');
+    console.log(tt.DFSPRE().toString());
+	console.log('================');
+	console.log('DFS Post order');
+    console.log(tt.DFSPOST().toString());
+	console.log('================');
+    //          10
+    //        8      15
+    //     6     9  11    16
+	//4,10,12,15,18,22,24,25,31,35,44,50,66,70,90
+  
+</script>

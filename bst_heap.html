@@ -1,0 +1,141 @@
+<script>
+    class Node{
+        constructor(val){
+            this.value=val;
+            this.left=null;
+            this.right=null;
+        }
+    }
+    class traverse{
+        constructor(){
+            this.path=[];
+            this.root=null;
+			this.values=[];
+			this.valuesMin=[];
+        }
+        pushMax(el){
+			this.values.push(el);
+			this.bubbleUp();
+		}
+		
+        bubbleUp(){
+			let index=this.values.length-1;
+			let parentIndex=Math.floor((index-1)/2);
+			let isPlacedOk=true;
+			while(isPlacedOk){
+				isPlacedOk=false;
+				if(this.values[parentIndex] < this.values[index]){
+					let tempParentIndx=parentIndex;
+					let temp=this.values[parentIndex];
+					this.values[parentIndex]=this.values[index];
+					this.values[index]=temp;
+					isPlacedOk=true;
+					index=parentIndex;
+					parentIndex=Math.floor((tempParentIndx-1)/2);
+				}
+			}
+			
+			return this.values;
+		}
+		extractMax(){
+			let lastIndex=this.values.length-1;
+			this.values[0]=this.values[lastIndex];
+			this.values.pop();
+			
+			let leftChildIndex=1;
+			let rightChildIndex=2;
+			
+			let parentIndex=0;
+			let isPlacedOk=true;
+			while(isPlacedOk){
+				isPlacedOk=false;
+				let biggest=this.values[leftChildIndex];
+				let biggestIndex=leftChildIndex;
+				if(biggest < this.values[rightChildIndex]){
+					biggestIndex=rightChildIndex;
+					biggest=this.values[rightChildIndex];
+				}
+				if(biggest > this.values[parentIndex] ){
+					let tmp=this.values[parentIndex];
+					this.values[parentIndex]=biggest;
+					this.values[biggestIndex]=tmp;
+					isPlacedOk=true;
+					parentIndex=biggestIndex;
+					leftChildIndex=2*parentIndex+1;
+					rightChildIndex=2*parentIndex+2;
+				}
+			}
+			return this.values;
+		}
+		pushMin(el){
+			this.valuesMin.push(el);
+			this.bubbleUpMin();
+		}
+		bubbleUpMin(){
+			let index=this.valuesMin.length-1;
+			let parentIndex=Math.floor((index-1)/2);
+			let isPlacedOk=true;
+			while(isPlacedOk){
+				isPlacedOk=false;
+				if(this.valuesMin[parentIndex] > this.valuesMin[index]){
+					let tempParentIndx=parentIndex;
+					let temp=this.valuesMin[parentIndex];
+					this.valuesMin[parentIndex]=this.valuesMin[index];
+					this.valuesMin[index]=temp;
+					isPlacedOk=true;
+					index=parentIndex;
+					parentIndex=Math.floor((tempParentIndx-1)/2);
+				}
+			}
+			
+			return this.valuesMin;
+		}
+		extractMin(){
+			let lastIndex=this.valuesMin.length-1;
+			this.valuesMin[0]=this.valuesMin[lastIndex];
+			this.valuesMin.pop();
+			
+			let leftChildIndex=1;
+			let rightChildIndex=2;
+			let parentIndex=0;
+			let isPlacedOk=true;
+			while(isPlacedOk){
+				isPlacedOk=false;
+				let biggest=this.valuesMin[leftChildIndex];
+				let biggestIndex=leftChildIndex;
+				if(biggest > this.valuesMin[rightChildIndex]){
+					biggestIndex=rightChildIndex;
+					biggest=this.valuesMin[rightChildIndex];
+				}
+				if(biggest < this.valuesMin[parentIndex] ){
+					let tmp=this.valuesMin[parentIndex];
+					this.valuesMin[parentIndex]=biggest;
+					this.valuesMin[biggestIndex]=tmp;
+					isPlacedOk=true;
+					parentIndex=biggestIndex;
+					leftChildIndex=2*parentIndex+1;
+					rightChildIndex=2*parentIndex+2;
+				}
+			}
+			return this.valuesMin;
+		}
+        
+    }
+    let tt=new traverse();
+	let stt=[25,15,50,10,22,35,70,4,12,18,24,31,44,66,90];
+	//let stt=[25,15,50,10,22,35];
+	for(let i in stt){
+		tt.pushMax(stt[i]);
+	}
+	console.log("==========Max Heap============");
+    console.log(tt.values.toString());
+	
+	console.log("extractMax==> ",tt.extractMax().toString());
+	console.log("======================");
+	console.log("==========Min Heap============");
+    for(let i in stt){
+		tt.pushMin(stt[i]);
+	}
+	console.log(tt.valuesMin.toString());
+	console.log("extractMin==> ",tt.extractMin().toString());
+</script>
