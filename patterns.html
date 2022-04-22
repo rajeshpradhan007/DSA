@@ -1,0 +1,458 @@
+<script>
+//https://github.com/kunal-kushwaha/DSA-Bootcamp-Java/blob/main/assignments/09-patterns.md
+document.write("1.<br/>");
+generatePattern(1,5);
+document.write("2.<br/>");
+generatePattern(2,5);
+document.write("3.<br/>");
+generatePattern(3,5);
+document.write("4.<br/>");
+generatePattern(4,5);
+document.write("5.<br/>");
+generatePattern(5,5);
+
+document.write("6.<br/>");
+generatePattern(6,5);
+
+document.write("7.<br/>");
+generatePattern(7,5);
+
+document.write("8.<br/>");
+generatePattern(8,5);
+
+document.write("9.<br/>");
+generatePattern(9,5);
+
+document.write("10.<br/>");
+generatePattern(10,5);
+
+document.write("11.<br/>");
+generatePattern(11,5);
+
+document.write("12.<br/>");
+generatePattern(12,5);
+
+document.write("13.<br/>");
+generatePattern(13,5);
+
+document.write("14.<br/>");
+generatePattern(14,5);
+
+document.write("15.<br/>");
+generatePattern(15,5);
+
+document.write("16.<br/>");
+generatePattern(16,10);
+
+document.write("17.<br/>");
+generatePattern(17,5);
+
+function generatePattern(question,n){
+	switch(question) {
+	  case 1:
+		/*
+		1.  *****
+			*****
+			*****
+			*****
+			*****
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=0;j<=n;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+	  case 2:
+		/*
+		2.  *
+			**
+			***
+			****
+			*****
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=0;j<=i;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 3:
+		/*
+		3.  *****
+			****
+			***
+			**
+			*
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=0;j<=n-i;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 4:
+		/*
+		
+		4.  1
+			1 2
+			1 2 3
+			1 2 3 4
+			1 2 3 4 5
+		*/
+		for(let i=1;i<=n;i++){
+			for(let j=1;j<=i;j++){
+				document.write(j);
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 5:
+		/*
+		5.  *
+			**
+			***
+			****
+			*****
+			****
+			***
+			**
+			*
+		*/
+		for(let i=0;i<=n*2;i++){
+			let required = (i>n) ? n*2-i : i;
+			for(let j=0;j<=required;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		
+		break;
+		case 6:
+		/*
+		6.       *
+				**
+			   ***
+			  ****
+			 *****
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=i;j<=n-1;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			for(let k=0;k<=i;k++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		
+		break;
+		case 7:
+		/*
+		
+		7.   *****
+			  ****
+			   ***
+				**
+				 *
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=0;j<=i;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			for(let k=i;k<=n-1;k++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		
+		break;
+		case 8:
+		/*
+		8.      *
+			   ***
+			  *****
+			 *******
+			*********
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=(n*2)/2;j>i;j--){
+				document.write("&nbsp;&nbsp;");
+			}
+			for(let j=0;j<=i;j++){
+				document.write("*");
+			}
+			for(let j=1;j<=i;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 9:
+		/*
+		9.  *********
+			 *******
+			  *****
+			   ***
+				*
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=0;j<=i;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			for(let j=0;j<=n-i;j++){
+				document.write("*");
+			}
+			for(let j=1;j<=n-i;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 10:
+		/*
+		10.      *
+				* *
+			   * * *
+			  * * * *
+			 * * * * *
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=n;j>i;j--){
+				document.write("&nbsp;");
+			}
+			for(let j=0;j<=i;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 11:
+		/*
+		11.  * * * * *
+			  * * * *
+			   * * *
+				* *
+				 *
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=0;j<=i;j++){
+				document.write("&nbsp;");
+			}
+			for(let j=0;j<=n-i;j++){
+				document.write("*");
+			}
+			
+			
+			document.write("<br/>");
+		}
+		break;
+		case 12:
+		/*
+		12.  * * * * *
+			  * * * *
+			   * * *
+				* *
+				 *
+				 *
+				* *
+			   * * *
+			  * * * *
+			 * * * * *
+		*/
+		for(let i=0;i<=n*2;i++){
+			let required= (i>n) ? n*2-i : i;
+			for(let j=0;j<=required;j++){
+				document.write("&nbsp;");
+			}
+			required= (i>n) ? n*2-i : i;
+			for(let j=required;j<=n;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 13:
+		/*
+		13.      *
+				* *
+			   *   *
+			  *     *
+			 *********
+			 
+					*
+				   * *
+			      *   *
+				 *     *
+				*       *
+			   *         *
+			  ********
+		*/
+		for(let i=0;i<=n;i++){
+			/*
+			for(let j=i;j<=n;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			document.write("*");
+			for(let j=1;j<=(i*2-1);j++){
+					document.write("&nbsp;&nbsp;");
+			}
+			if(i>0) document.write("*");
+			document.write("<br/>");
+			*/
+			
+			for(let j=i;j<=n;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			//Print hollow pyramid
+			for(let j=1;j<=(2*i-1);j++){
+				if(i==n||j==1||j==(2*i-1)){
+					document.write("*");
+				}else{
+					document.write("&nbsp;&nbsp;");
+				}
+			}
+			document.write("<br/>");
+			
+		}
+		
+		break;
+		case 14:
+		/*
+		
+		14.  *********
+			  *     *
+			   *   *
+				* *
+				 *
+		*/
+		/*
+		for(let i=0;i<=n;i++){
+			for(let j=0;j<=i;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			for(let j=(n*2-i);j>=0;j--){
+				console.log(j);
+				if(j==(n*2-i) || j==i || i==0){
+					document.write("*");
+				}else{
+					document.write("&nbsp;&nbsp;");
+				}
+			}
+			document.write("<br/>");
+		}
+		*/
+		for(let i=n;i>=1;i--){
+			//Print trailing spaces
+			for(let j=i;j<n;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			//Print hollow pyramid
+			for(let j=1;j<=(2*i-1);j++){
+				if(i==n||j==1||j==(2*i-1)){
+					document.write("*");
+				}
+				else{
+					document.write("&nbsp;&nbsp;");
+				}
+			}
+			document.write("<br/>");
+		}	
+		break;
+		case 15:
+			/*
+		15.      *
+				* *
+			   *   *
+			  *     *
+			 *       *
+			  *     *
+			   *   *
+				* *
+				 *
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=i;j<n;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			//Print hollow pyramid
+			for(let j=1;j<=(2*i-1);j++){
+				if(j==1||j==(2*i-1)){
+					document.write("*");
+				}
+				else{
+					document.write("&nbsp;&nbsp;");
+				}
+			}
+			document.write("<br/>");
+		}
+		for(let i=n-1;i>=1;i--){
+			//Print trailing spaces
+			for(let j=i;j<n;j++){
+				document.write("&nbsp;&nbsp;");
+			}
+			//Print hollow pyramid
+			for(let j=1;j<=(2*i-1);j++){
+				if(j==1||j==(2*i-1)){
+					document.write("*");
+				}
+				else{
+					document.write("&nbsp;&nbsp;");
+				}
+			}
+			document.write("<br/>");
+		}
+		break;
+		case 16:
+		/*
+		16.           1
+					1   1
+				  1   2   1
+				1   3   3   1
+			  1   4   6   4   1
+		*/
+		let coef=1;
+		for(let i=0;i<n;i++){
+			for(let j=n-i;j>0;j--){
+				document.write("&nbsp;&nbsp;");
+			}
+			for (let j = 0; j <= i; j++) {
+				if (j == 0 || i == 0)
+					coef = 1;
+				else
+					coef = coef * (i - j + 1) / j;
+			document.write("    "+coef+"    ");
+		  }
+			document.write("<br/>");
+		}
+		break;
+		case 17:
+		/*
+		17.      1
+				212
+			   32123
+			  4321234
+			   32123
+				212
+				 1
+		*/
+		for(let i=0;i<=n;i++){
+			for(let j=n-i;j>0;j--){
+				document.write("^");
+			}
+			for(let j=0;j<=i;j++){
+				document.write("*");
+			}
+			document.write("<br/>");
+		}
+		break;
+	  default:
+		// code block
+	}
+}
+
+
+</script>

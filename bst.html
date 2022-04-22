@@ -1,0 +1,83 @@
+<script>
+class Bst{
+    constructor(){
+        this.root=null;
+        this.length=0;
+    }
+    push(val){
+        if(!this.root){
+            let obj=new Node(val);
+            this.root=obj;
+        }else{
+            let obj=new Node(val);
+            let cur=this.root;
+            while(true){
+				if(cur.value==val) return undefined;
+                if(cur.value > val){
+					if(cur.left==null){
+						cur.left=obj;
+						return;
+					}
+					cur=cur.left;
+                }
+				if(cur.value < val){
+					if(cur.right==null){
+						cur.right=obj;	
+						return; 
+					}
+                    cur=cur.right;
+                }
+			}
+        }
+    }
+	find(val){
+		if(this.root==null) return false;
+		let cur=this.root;
+		while(cur){
+			if(cur.value==val) return true;
+			if(cur.value > val){
+				cur=cur.left;
+			} else if(cur.value < val){
+				cur=cur.right;
+			} else {
+				return true
+			}
+			
+		}
+		return false;
+	}
+	level(root) {
+		if(!root) return [];
+		const result = [];
+		const queue = [root];
+			while(queue.length) {
+		  const currentLevelValues = [];
+		  let length = queue.length, count = 0;
+				while(count < length) {
+			const currentNode = queue.shift();
+					currentLevelValues.push(currentNode.value);
+					if(currentNode.left) { queue.push(currentNode.left) }
+					if(currentNode.right) { queue.push(currentNode.right) }
+			count++;
+		  }
+		  result.push(currentLevelValues);
+		}
+			return result;
+	}
+}
+class Node{
+    constructor(val){
+        this.value=val;
+        this.left=null;
+        this.right=null;
+    }
+}
+
+let tt=new Bst();
+
+let arr=[8,3,10,1,6,4,7,14,13]
+for(let i in arr){
+	tt.push(arr[i]);
+}
+console.log(tt);
+</script>

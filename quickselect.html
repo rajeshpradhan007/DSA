@@ -1,0 +1,34 @@
+<script>
+let arr=[2,634,342,452,53,24,5,8,21];
+let k=2;
+console.log(quicksort(arr,0,arr.length-1,1));
+console.log(arr);
+function quicksort(arr,start,end,k){
+	if(start>=end) return arr[k];
+  let mid=partion(arr,start,end);
+  if(mid==k){
+  	return arr[k];
+  } else if(mid > k){
+  	return quicksort(arr,mid+1,end,k);
+  }else if(mid < k){
+  	return quicksort(arr,start,mid-1,k)	
+  }
+}
+function partion(arr,start,end){
+	let pivot=arr[end];
+	let i=start-1;
+  for(let j=start;j<end;j++){
+  	if(arr[j] < pivot){
+    	i++;
+      swap(arr,i,j);
+    }
+  }
+  swap(arr,i+1,end);
+  return i+1;
+}
+function swap(arr,i,j){
+	let t=arr[j];
+  arr[j]=arr[i]
+  arr[i]=t;
+}
+</script>

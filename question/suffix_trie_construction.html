@@ -1,0 +1,39 @@
+<script>
+class SuffixTrie {
+  constructor(string) {
+    this.root = {};
+    this.endSymbol = '*';
+    this.populateSuffixTrieFrom(string);
+  }
+
+  populateSuffixTrieFrom(string) {
+    // Write your code here.
+	for(let i=0;i<string.length;i++){
+		this.insert(string.slice(0,i+1));		
+		
+	}
+  }
+	insert(str){
+		console.log(str);
+		let res={};
+		this.helper(str,res);
+		console.log(res);
+	}
+	helper(str,res){
+		if(str.length==1){
+			
+			return {[str]:{"*":true}};
+		}
+		this.helper(str.slice(0,str.length));
+	}
+	
+	
+
+  contains(string) {
+		console.log(this.root);
+    // Write your code here.
+  }
+}
+let obj=new SuffixTrie("babc");
+console.log(obj.root);
+</script>

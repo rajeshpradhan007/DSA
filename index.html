@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Questions</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container mt-3">
+        <h2>Questions</h2>
+        <!--<p>Contextual classes can be used to color the table, table rows or table cells. The classes that can be used
+            are: .table-primary, .table-success, .table-info, .table-warning, .table-danger, .table-active,
+            .table-secondary, .table-light and .table-dark:</p>-->
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Question</th>
+                    <th>Level</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="questionTbody">
+                
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<script>
+    let matrixquestions=[
+        {type:"Matrix",level:1,question:"Matrix DFS",file:"matrix_dfs.html"},
+        {type:"Matrix",level:1,question:"Matrix BFS",file:"matrix_bfs.html"},
+        {type:"Matrix",level:2,question:"Matrix Remove island",file:"matrix_remove-island.html"},
+        {type:"Matrix",level:2,question:"Matrix River count and River count array",file:"matrix_river-count_and_river-count-array.html"}
+    ];
+    let binaryTreeQuestion=[
+        {type:"Binary Tree",level:1,question:"Binary Tree level order",file:"bt_level_order.html"},
+        {type:"Binary Tree",level:1,question:"Binary Tree Right side view",file:"bt_right_side_view.html"},
+    ];
+    let questions=[...matrixquestions,...binaryTreeQuestion];
+    let html="";
+    for(let quest of questions){
+        let level="Easy";
+        if(quest.level==2){
+            level="Meidum"
+        }else if(quest.level==3){
+            level="Hard";
+        }else if(quest.level==4){
+            level="Very Hard";
+        }
+        html+=`<tr>
+            <td>${quest.type}</td>
+            <td>${quest.question}</td>
+            <td>${level}</td>
+            <td><a href="question/${quest.file}">View</a></td>
+        </tr>`;
+    }
+    document.getElementById("questionTbody").innerHTML=html;
+</script>
+</html>

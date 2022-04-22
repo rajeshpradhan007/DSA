@@ -1,0 +1,59 @@
+<script>
+class Graph{
+	constructor(){
+		this.AdjList=new Map();
+	}
+	addVertex(v){
+		//this.adjacentList.push(v,new Map());
+		this.AdjList.set(v, []);
+	}
+	addEdge(v, w)
+	{
+		// get the list for vertex v and put the
+		// vertex w denoting edge between v and w
+		this.AdjList.get(v).push(w);
+	 
+		// Since graph is undirected,
+		// add an edge from w to v also
+		this.AdjList.get(w).push(v);
+	}
+	bfs(node){
+		let visited=new Set();
+		let queue=[];
+		queue.push(node)
+		visited.add(node);
+		while(queue.length>0){	
+			let n=queue.shift();
+			console.log("--"+n+"--");
+			for(let i in g.AdjList.get(n)){
+				if(visited.has(g.AdjList.get(n)[i])) continue;
+				visited.add(g.AdjList.get(n)[i]);
+				queue.push(g.AdjList.get(n)[i]);
+				
+			}
+		}
+	}
+}
+let g=new Graph();
+
+
+//var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ];
+var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ];
+ 
+// adding vertices
+for (var i = 0; i < vertices.length; i++) {
+    g.addVertex(vertices[i]);
+}
+ 
+// adding edges
+g.addEdge('A', 'B');
+g.addEdge('A', 'D');
+g.addEdge('A', 'E');
+g.addEdge('B', 'C');
+g.addEdge('D', 'E');
+g.addEdge('E', 'F');
+g.addEdge('E', 'C');
+g.addEdge('C', 'F');
+//console.log(g.bfs('A'));
+
+</script>

@@ -1,0 +1,45 @@
+<script>
+let matrix=
+[
+  [1, 0, 0, 1, 0],
+  [1, 0, 1, 0, 0],
+  [0, 0, 1, 0, 1],
+  [1, 0, 1, 0, 1],
+  [1, 0, 1, 1, 0]
+];
+console.log(dfshelper(matrix));
+function dfs(matrix,i,j,seen,array){
+	let icheck = 0 <= i && i < matrix.length;
+  let jcheck = 0 <= j && j < matrix[0].length;
+  if(!icheck || !jcheck) return false;
+  if(matrix[i][j]==0) return false;
+	let tmp=i+"-"+j;
+  if(!seen.has(tmp)){
+  	seen.add(tmp);
+  }else{
+  	return false;
+  }
+  array.push(matrix[i][j]);
+  dfs(matrix,i,j+1,seen,array);
+  dfs(matrix,i+1,j,seen,array);
+  dfs(matrix,i,j-1,seen,array);
+  dfs(matrix,i-1,j,seen,array);
+ return true;
+}
+function dfshelper(matrix){
+	let seen=new Set();
+  let riverCount=0;
+  let riverArrayCount=[];
+	for(let i=0;i<matrix.length;i++){
+  	for(let j=0;j<matrix[i].length;j++){
+    	let array=[];
+    	if(dfs(matrix,i,j,seen,array)){
+      	riverCount++;
+        riverArrayCount.push(array.length);
+      }
+      
+    }
+  }
+  return {riverCount:riverCount,riverArrayCount:riverArrayCount};
+}
+</script>
