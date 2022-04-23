@@ -1,0 +1,60 @@
+<script>
+    console.log(generateDiv(6));
+    function generateDiv(n) {
+        let res = [];
+        for (let i = 0; i < n; i++) {
+            res.push('<div>');
+            res.push('</div>');
+        }
+        let results={};
+        helper(res,0,results);
+
+        console.log(Object.values(results));
+    }
+    function helper(res,idx,results){
+        if(idx==res.length){
+            let nee=res.slice();
+            if(checkIfValid(nee)){
+                //console.log(nee);
+                let ss=nee.join("");
+                results[ss]=ss; 
+            }
+            //console.log();
+            return
+        }
+        for(let i=idx;i<res.length;i++){
+            //console.log(i);
+            swap(res,i,idx);
+
+            if(res[0]=="</div>" || res[res.length-1]=="<div>" ){
+                swap(res,idx,i);
+                continue;
+            }
+
+            helper(res,idx+1,results);
+
+            swap(res,idx,i);
+        }
+    }
+    function swap(res,i,j){
+        let tmp=res[i];
+        res[i]=res[j];
+        res[j]=tmp;
+    }
+    function checkIfValid(arr){
+        let stack=[];
+        for(let i=0;i<arr.length;i++){
+            if(arr[i]=="<div>"){
+                stack.push(arr[i]);
+            }
+            if(arr[i]=="</div>"){
+                if(stack.length==0) return false;
+                if(stack[stack.length-1]=="</div>") return false; 
+                stack.pop();
+            }
+        }
+
+        if(stack.length==0) return true
+        return false;
+    }
+</script>
