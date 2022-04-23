@@ -1,0 +1,64 @@
+<script>
+    //let one = "algoexpert";
+    //let two = "your-dream-job";
+    //let three = "your-algodream-expertjob";
+
+    let one="algo";
+    let two="frog";
+    let three="fralgogo";
+
+    function checkInterweaving(one, two, three) {
+        if (one.length + two.length != three.length) return false;
+        return isInterweaving(one, two, three, 0, 0)
+    }
+
+    //O(2^(n+m)) time | O(n+m) space
+    function isInterweaving(one, two, three, i, j) {
+        let k = i + j;
+        if (k == three.length) {
+            return true;
+        }
+        if (i < one.length && one[i] == three[k]) {
+            if (isInterweaving(one, two, three, i + 1, j)) {
+                return true;
+            }
+        }
+        if (j < two.length && two[j] == three[k]) {
+            return isInterweaving(one, two, three, i, j + 1);
+        }
+        return false;
+    }
+    console.log(checkInterweaving(one, two, three, 0, 0));
+
+
+
+
+    function checkInterweavingCache(one, two, three) {
+        if (one.length + two.length != three.length) return false;
+        let cache = new Array(one.length + 1).fill(0).map((_) => new Array(two.length + 1).fill(null));
+        return isInterweavingCache(one, two, three, 0, 0, cache);
+    }
+
+    //O((nm)) time | O(nm) space
+    function isInterweavingCache(one, two, three, i, j, cache) {
+        let k = i + j;
+        if (k == three.length) {
+            cache[i][j]=true;
+            return true;
+        }
+        if (i < one.length && one[i] == three[k]) {
+            cache[i][j] = isInterweaving(one, two, three, i + 1, j, cache);
+            if (cache[i][j]) {
+                return true;
+            }
+        }
+        if (j < two.length && two[j] == three[k]) {
+            cache[i][j] = isInterweaving(one, two, three, i, j + 1, cache);
+            return cache[i][j];
+        }
+        cache[i][j] = false;
+        return false;
+    }
+    console.log(checkInterweavingCache(one, two, three, 0, 0));
+
+</script>
