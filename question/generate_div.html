@@ -1,4 +1,5 @@
 <script>
+    /*
     console.log(generateDiv(6));
     function generateDiv(n) {
         let res = [];
@@ -57,4 +58,22 @@
         if(stack.length==0) return true
         return false;
     }
+    */
+
+    rec(6,6,'');
+   function rec(open,close,str){
+    if(open==0 && close==0){
+        console.log(str);
+        return;
+    }
+    //console.log(open,close);
+    //if(open==0 && open<close)
+    if(open<=close && open!=0){
+        rec(open-1,close,str.concat('<div>'));
+    }
+    if(open<close && close !=0){
+        rec(open,close-1,str.concat('</div>'));
+    }
+    
+   }
 </script>

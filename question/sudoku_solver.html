@@ -1,6 +1,5 @@
-
 <style>
-    .grid{
+    .grid {
         height: 40px;
         width: 40px;
         background: gold;
@@ -30,20 +29,20 @@
         [0, 0, 0, 0, 0, 0, 0, 7, 4],
         [0, 0, 5, 2, 0, 6, 3, 0, 0]];
 
-        let tmpHtml="";
-        let ii=0;
+    let tmpHtml = "";
+    let ii = 0;
     for (let el of sudoku) {
-        tmpHtml+=`<div style="display:flex;">`;
-            let jj=0;
-        for(let each of el){
-            tmpHtml+=`<div class="grid" id="${ii+""+jj}">${each}</div>`;
+        tmpHtml += `<div style="display:flex;">`;
+        let jj = 0;
+        for (let each of el) {
+            tmpHtml += `<div class="grid" id="${ii + "" + jj}">${each}</div>`;
             jj++;
         }
-        tmpHtml+=`</div>`;
+        tmpHtml += `</div>`;
         ii++;
     }
-    document.getElementById("ss").innerHTML=tmpHtml;
-    
+    document.getElementById("ss").innerHTML = tmpHtml;
+
 
     function isSafe(sudoku, num, row, col) {
         for (let i = 0; i < sudoku.length; i++) {
@@ -86,10 +85,10 @@
         console.log(el.join(" "));
     }
 
-    async function changee(i,j,k){
-        setTimeout(()=>{
-            document.getElementById(i+""+j).innerHTML=k;
-        },1000,i,j,k);
+    async function changee(i, j, k) {
+        setTimeout(() => {
+            document.getElementById(i + "" + j).innerHTML = k;
+        }, 1000, i, j, k);
     }
     /*
     async function solveSudoku2(sudoku) {
@@ -127,8 +126,8 @@
     */
 
     function solveSudoku2(sudoku) {
-        
-            for (let i = 0; i < 9; i++) {
+
+        for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 if (sudoku[i][j] == 0) {
 
@@ -141,7 +140,7 @@
                             } else {
                                 sudoku[i][j] = 0;
                             }
-                            
+
                         }
                     }
                     return false;
@@ -150,7 +149,7 @@
             }
         }
         return true;
-        
-        
+
+
     }
 </script>
