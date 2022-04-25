@@ -18,32 +18,39 @@
                     }
                 }
             }
+            this.printList();
         }
-        removeDuplicate() {
+        removeKthNode(n) {
+            let first = this.head;
+            let sec = this.head;
+
+            let i = 0;
+            while (first) {
+                if (i == n) break;
+                first = first.next;
+                i++;
+            }
+            if(first==null){
+                this.head=this.head.next;
+                this.value=this.head.value;
+            }else{
+                while(first.next){
+                    sec=sec.next;
+                    first=first.next;
+                }
+                sec.next=sec.next.next;
+            }
+            this.printList();
+        }
+        printList() {
             let cur = this.head;
-            while (cur.next) {
-                if (cur.value == cur.next.value) {
-                    cur.next = cur.next.next;
-                } else {
-                    cur = cur.next;
-                }
-            }
-        }
-        removeAllDuplicate() {
-            let hashed = new Set();
-            let cur = this.head.next;
-            let prev = this.head;
+            let arr = [];
             while (cur) {
-                if (prev.value == cur.value) {
-                    if (!hashed.has(cur.value)) hashed.add(cur.value);
-                    prev.next = cur.next;
-                } else if (hashed.has(cur.value)) {
-                    prev.next = cur.next;
-                } else {
-                    prev = cur;
-                }
+                arr.push(cur.value);
                 cur = cur.next;
+
             }
+            console.log(arr.join("->"));
         }
 
     }
@@ -54,16 +61,13 @@
         }
     }
     let obj = new LinkedList();
-    for (let el of [1, 1, 1, 3, 4, 4, 4, 4, 5, 1, 6, 6]) {
+    for (let el of [1, 3, 4, 5, 6]) {
         obj.insert(el);
     }
     console.log(obj);
-    //console.log(obj.removeDuplicate());
+    
+    console.log(obj.removeKthNode(3));
     //console.log(obj);
-
-
-    console.log(obj.removeAllDuplicate());
-    console.log(obj);
 
 
 </script>

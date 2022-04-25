@@ -1,0 +1,79 @@
+<script>
+
+    class DoubleLinkedList {
+        constructor() {
+            this.head = null;
+            this.tail = null;
+        }
+        append(el) {    //At last
+            let newNode = new Node(el);
+            if (this.head == null) {
+                this.head = newNode;
+                this.tail = newNode;
+            }else{
+                this.tail.next = newNode;
+                newNode.prev = this.tail;
+                this.tail = newNode;
+            }
+
+            this.printList();
+        }
+        prepend(el){
+            let newNode = new Node(el);
+            if (this.head == null) {
+                this.head = newNode;
+                this.tail = newNode;
+            }else{
+                this.head.prev = newNode;
+                newNode.next = this.head;
+                this.head = newNode;
+            }
+
+            this.printList();
+        }
+        remove(el){
+            let cur=this.head.next;
+            let prev=this.head
+            while(cur){
+                if(cur.value==el){
+                    prev.next=cur.next;
+                    cur.prev=prev.prev;
+
+                    break;
+                }
+                prev=cur;
+                cur=cur.next;
+            }
+            this.printList();
+        }
+        printList() {
+            let array = [];
+            let currentList = this.head;
+            while (currentList !== null) {
+                array.push(currentList.value);
+                currentList = currentList.next;
+            }
+
+            console.log(array.join(' <--> '));
+            return this;
+        }
+    }
+
+    class Node {
+        constructor(el) {
+            this.value = el;
+            this.next = null;
+            this.prev = null;
+        }
+    }
+    let obj = new DoubleLinkedList();
+    obj.append(1);
+    obj.append(2);
+    obj.append(3);
+    obj.append(4);
+    obj.append(5);
+    obj.append(6);
+    obj.prepend(23);
+    obj.remove(3);
+    console.log(obj);
+</script>
