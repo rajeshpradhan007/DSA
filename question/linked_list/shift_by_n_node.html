@@ -1,0 +1,80 @@
+<script>
+    class LinkedList {
+        constructor() {
+            this.head = null;
+        }
+        insert(el) {
+            let newNode = new Node(el);
+            if (this.head == null) {
+                this.head = newNode;
+            } else {
+                let cur = this.head;
+                while (cur) {
+                    if (cur.next == null) {
+                        cur.next = newNode;
+                        break;
+                    } else {
+                        cur = cur.next;
+                    }
+                }
+            }
+            this.printList();
+        }
+        shiftLinkedList(n) {
+            let first = this.head;
+            let sec = this.head;
+
+            let i = 0;
+            while (first) {
+                if (i == n) break;
+                first = first.next;
+                i++;
+            }
+            while (first.next) {
+                sec = sec.next;
+                first = first.next;
+            }
+            let stored=sec.next;
+            //console.log(sec,stored);
+            sec.next=null;
+            
+            
+            let cur=stored;
+            while(cur.next){
+                cur=cur.next;
+            }
+            
+            cur.next=this.head;
+            this.head=stored;
+            //console.log(stored);
+            this.printList();
+        }
+        printList() {
+            let cur = this.head;
+            let arr = [];
+            while (cur) {
+                arr.push(cur.value);
+                cur = cur.next;
+
+            }
+            console.log(arr.join("->"));
+        }
+
+    }
+    class Node {
+        constructor(data, next = null) {
+            this.value = data;
+            this.next = next;
+        }
+    }
+    let obj = new LinkedList();
+    for (let el of [0, 1, 2, 3, 4, 5]) {
+        obj.insert(el);
+    }
+    console.log(obj);
+
+    console.log(obj.shiftLinkedList(2));
+    //console.log(obj);
+
+
+</script>

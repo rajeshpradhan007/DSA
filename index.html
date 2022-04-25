@@ -53,11 +53,19 @@
     ];
     let linkedListQuestion=[
         {type:"Linked List",level:1,question:"Remove duplicate",file:"linked_list/remove_duplicate.html"},
+        {type:"Linked List",level:1,question:"Doubly linked list",file:"linked_list/double_linked_list.html"},
+        {type:"Linked List",level:2,question:"Remove kth node",file:"linked_list/remove_kth_node.html"},
+        {type:"Linked List",level:3,question:"Shift by n node",file:"linked_list/shift_by_n_node.html"},
+        //.html.html
        
     ];
-    //.html
+    let arrayQuestion=[
+        {type:"Array",level:1,question:"Arrays sum",file:"array/arrays_sum.html"},
+       
+    ];
 
-    let questions=[...matrixquestions,...binaryTreeQuestion,...recursionQuestion,...linkedListQuestion];
+
+    let questions=[...matrixquestions,...binaryTreeQuestion,...recursionQuestion,...linkedListQuestion,...arrayQuestion];
     let html="";
     for(let quest of questions){
         let level="Easy";

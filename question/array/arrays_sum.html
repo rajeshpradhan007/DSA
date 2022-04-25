@@ -1,0 +1,45 @@
+<script>
+    let A = [7, 7, 6, 2, 0, 1, 7];
+    let B = [4, 3, 5, 1, 9, 1, 1];
+    console.log(A,B);
+    let aIdx = A.length - 1;
+    let bIdx = B.length - 1;
+
+    let resultArr = [];
+    let carry = 0;
+    let tmpSum = 0;
+    let toUse = 0;
+    while (aIdx >= 0 || bIdx >= 0) {
+        if ((A[aIdx] != undefined) && (B[bIdx] != undefined)) {
+            tmpSum = A[aIdx] + B[bIdx];
+            aIdx--;
+            bIdx--;
+        } else if ((A[aIdx] != undefined)) {
+            tmpSum = A[aIdx];
+            aIdx--;
+        } else if (B[bIdx] != undefined) {
+            tmpSum = B[bIdx];
+            bIdx--;
+        }
+        tmpSum = parseInt(tmpSum) + carry;
+        if (tmpSum == 10) {
+            toUse = 0;
+            carry = 1;
+        } else if (tmpSum > 10) {
+            toUse = tmpSum % 10;
+            carry = Math.floor(tmpSum / 10);
+        } else {
+            carry = 0;
+            toUse = tmpSum;
+        }
+        //console.log(carry);
+
+        resultArr.push(toUse);
+    }
+    if (carry != 0) {
+        resultArr.push(carry);
+    }
+    console.log([].concat(resultArr).reverse());
+        //4 5 5 2 4 0 3 6 7
+
+</script>
