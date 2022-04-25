@@ -46,13 +46,18 @@
     let recursionQuestion=[
         {type:"Recursion",level:2,question:"Permutation of array or string",file:"recusion_permutation_of_array_string.html"},
         {type:"Recursion",level:3,question:"Find all combinations of elements seperated n distance",file:"all_combinations_of_elements_seperated_n.html"},
-        {type:"Recursion",level:3,question:"N queen ",file:"n-queen.html"},
+        {type:"Recursion",level:4,question:"N queen ",file:"n-queen.html"},
         {type:"Recursion",level:3,question:"Interweaving string",file:"interweaving_string.html"},
         {type:"Recursion",level:3,question:"Generate div",file:"generate_div.html"},
+        {type:"Recursion",level:3,question:"Measure cups",file:"measure_cups.html"},
     ];
+    let linkedListQuestion=[
+        {type:"Linked List",level:1,question:"Remove duplicate",file:"linked_list/remove_duplicate.html"},
+       
+    ];
+    //.html
 
-
-    let questions=[...matrixquestions,...binaryTreeQuestion,...recursionQuestion];
+    let questions=[...matrixquestions,...binaryTreeQuestion,...recursionQuestion,...linkedListQuestion];
     let html="";
     for(let quest of questions){
         let level="Easy";

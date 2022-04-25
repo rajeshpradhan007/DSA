@@ -1,0 +1,69 @@
+<script>
+    class LinkedList {
+        constructor() {
+            this.head = null;
+        }
+        insert(el) {
+            let newNode = new Node(el);
+            if (this.head == null) {
+                this.head = newNode;
+            } else {
+                let cur = this.head;
+                while (cur) {
+                    if (cur.next == null) {
+                        cur.next = newNode;
+                        break;
+                    } else {
+                        cur = cur.next;
+                    }
+                }
+            }
+        }
+        removeDuplicate() {
+            let cur = this.head;
+            while (cur.next) {
+                if (cur.value == cur.next.value) {
+                    cur.next = cur.next.next;
+                } else {
+                    cur = cur.next;
+                }
+            }
+        }
+        removeAllDuplicate(){
+            let hashed=new Set();
+            let cur = this.head.next;
+            let prev = this.head;
+            while (cur) {
+                if (prev.value == cur.value) {
+                   if(!hashed.has(cur.value)) hashed.add(cur.value);
+                    prev.next = cur.next;
+                } else if(hashed.has(cur.value) ){
+                    prev.next=cur.next;
+                }else{
+                    prev=cur;
+                }
+                cur = cur.next;
+            }
+        }
+        
+    }
+    class Node {
+        constructor(data, next = null) {
+            this.value = data;
+            this.next = next;
+        }
+    }
+    let obj = new LinkedList();
+    for (let el of [1, 1, 1, 3, 4, 4, 4, 4, 5, 1, 6, 6]) {
+        obj.insert(el);
+    }
+    console.log(obj);
+    //console.log(obj.removeDuplicate());
+    //console.log(obj);
+
+
+    console.log(obj.removeAllDuplicate());
+    console.log(obj);
+    
+
+</script>
