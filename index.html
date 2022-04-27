@@ -33,31 +33,33 @@
 
 </body>
 <script>
-    let matrixquestions=[
-        {type:"Matrix",level:1,question:"Matrix DFS",file:"matrix_dfs.html"},
-        {type:"Matrix",level:1,question:"Matrix BFS",file:"matrix_bfs.html"},
-        {type:"Matrix",level:2,question:"Matrix Remove island",file:"matrix_remove-island.html"},
-        {type:"Matrix",level:2,question:"Matrix River count and River count array",file:"matrix_river-count_and_river-count-array.html"}
+    let graphsquestions=[
+        {type:"Graphs",level:1,question:"Matrix DFS",file:"graphs/matrix_dfs.html"},
+        {type:"Graphs",level:1,question:"Matrix BFS",file:"graphs/matrix_bfs.html"},
+        {type:"Graphs",level:2,question:"Matrix Remove island",file:"graphs/matrix_remove-island.html"},
+        {type:"Graphs",level:2,question:"Matrix River count and River count array",file:"graphs/matrix_river-count_and_river-count-array.html"}
     ];
     let binaryTreeQuestion=[
-        {type:"Binary Tree",level:1,question:"Binary Tree level order",file:"bt_level_order.html"},
-        {type:"Binary Tree",level:1,question:"Binary Tree Right side view",file:"bt_right_side_view.html"},
+        {type:"Binary Tree",level:1,question:"Binary Tree level order",file:"binary_tree/bt_level_order.html"},
+        {type:"Binary Tree",level:1,question:"Binary Tree Right side view",file:"binary_tree/bt_right_side_view.html"},
     ];
     let recursionQuestion=[
-        {type:"Recursion",level:2,question:"Permutation of array or string",file:"recusion_permutation_of_array_string.html"},
-        {type:"Recursion",level:3,question:"Find all combinations of elements seperated n distance",file:"all_combinations_of_elements_seperated_n.html"},
-        {type:"Recursion",level:4,question:"N queen ",file:"n-queen.html"},
-        {type:"Recursion",level:3,question:"Interweaving string",file:"interweaving_string.html"},
-        {type:"Recursion",level:3,question:"Generate div",file:"generate_div.html"},
-        {type:"Recursion",level:3,question:"Measure cups",file:"measure_cups.html"},
+        {type:"Recursion",level:2,question:"Permutation of array or string",file:"recursion/recusion_permutation_of_array_string.html"},
+        {type:"Recursion",level:3,question:"Find all combinations of elements seperated n distance",file:"recursion/all_combinations_of_elements_seperated_n.html"},
+        {type:"Recursion",level:4,question:"N queen ",file:"recursion/n-queen.html"},
+        {type:"Recursion",level:3,question:"Interweaving string",file:"recursion/interweaving_string.html"},
+        {type:"Recursion",level:3,question:"Generate div",file:"recursion/generate_div.html"},
+        {type:"Recursion",level:3,question:"Measure cups",file:"recursion/measure_cups.html"},
+        {type:"Recursion",level:4,question:"Sudoku solver",file:"recursion/sudoku_solver.html"},
     ];
     let linkedListQuestion=[
         {type:"Linked List",level:1,question:"Remove duplicate",file:"linked_list/remove_duplicate.html"},
         {type:"Linked List",level:1,question:"Doubly linked list",file:"linked_list/double_linked_list.html"},
         {type:"Linked List",level:2,question:"Remove kth node",file:"linked_list/remove_kth_node.html"},
         {type:"Linked List",level:3,question:"Shift by n node",file:"linked_list/shift_by_n_node.html"},
-        //.html.html
-       
+        {type:"Linked List",level:4,question:"Rearrange linked list",file:"linked_list/rearrange_linked_list.html"},
+        {type:"Linked List",level:4,question:"Zip linked list",file:"linked_list/zip_linked_list.html"},
+        
     ];
     let arrayQuestion=[
         {type:"Array",level:1,question:"Arrays sum",file:"array/arrays_sum.html"},
@@ -65,16 +67,16 @@
     ];
 
 
-    let questions=[...matrixquestions,...binaryTreeQuestion,...recursionQuestion,...linkedListQuestion,...arrayQuestion];
+    let questions=[...graphsquestions,...binaryTreeQuestion,...recursionQuestion,...linkedListQuestion,...arrayQuestion];
     let html="";
     for(let quest of questions){
-        let level="Easy";
+        let level="<span style='color:#04ff00'>Easy</span>";
         if(quest.level==2){
-            level="Meidum"
+            level="<span style='color:#51adef'>Meidum</span>";
         }else if(quest.level==3){
-            level="Hard";
+            level="<span style='color:#ef5151'>Hard</span>";
         }else if(quest.level==4){
-            level="Very Hard";
+            level="<span style='color:#383535'>Very Hard</span>";
         }
         html+=`<tr>
             <td>${quest.type}</td>

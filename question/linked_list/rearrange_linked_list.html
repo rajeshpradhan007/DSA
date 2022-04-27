@@ -1,0 +1,113 @@
+<script>
+    class LinkedList {
+        constructor() {
+            this.head = null;
+        }
+        insert(el) {
+            let newNode = new Node(el);
+            if (this.head == null) {
+                this.head = newNode;
+            } else {
+                let cur = this.head;
+                while (cur) {
+                    if (cur.next == null) {
+                        cur.next = newNode;
+                        break;
+                    } else {
+                        cur = cur.next;
+                    }
+                }
+            }
+            this.printList();
+        }
+        rearrangeLinkedList(k) {
+            /*
+            let cur=this.head;
+            let tt=null;
+            let newList=tt;
+            let prev=this.head;
+            let tmp;
+            while(cur){
+                if(cur.value>=k){
+                    tmp=cur.next;
+                    if(newList==null){
+                        cur.next=null;
+                        newList=cur;
+                        cur=tmp;
+                    }else{
+                        cur.next=null;
+                        newList.next=cur;
+                        newList=newList.next;
+                        cur=tmp;
+                       // console.log(cur);
+                    }
+                }else{
+                    cur=cur.next;
+                }
+               
+            }
+            console.log(this.head,tt);
+            */
+            let large=null;
+            let small=null;
+            let largeHead=null;
+            let smallHead=null;
+            let cur=this.head;
+            while(cur){
+                let tmp=cur.next;
+
+                if(cur.value>k){
+                    if(!large){
+                        largeHead=large=cur;
+                    }else{
+                        large.next=cur;
+                        large=large.next;
+                    }
+                }else{
+                    if(!small){
+                        smallHead=small=cur;
+                    }else{
+                        small.next=cur;
+                        small=small.next;
+                    }
+                }
+                cur.next=null;
+                
+                cur=tmp;
+            }
+            console.log(largeHead,smallHead);
+
+            if (small) {
+                small.next = largeHead;
+            }
+            return smallHead || largeHead;
+            //this.printList();
+        }
+        printList() {
+            let cur = this.head;
+            let arr = [];
+            while (cur) {
+                arr.push(cur.value);
+                cur = cur.next;
+
+            }
+            console.log(arr.join("->"));
+        }
+
+    }
+    class Node {
+        constructor(data, next = null) {
+            this.value = data;
+            this.next = next;
+        }
+    }
+    let obj = new LinkedList();
+    for (let el of [3, 0, 5, 2, 1, 4]) {
+        obj.insert(el);
+    }
+    
+    console.log(obj.rearrangeLinkedList(3));
+    //console.log(obj.printList());
+
+
+</script>
