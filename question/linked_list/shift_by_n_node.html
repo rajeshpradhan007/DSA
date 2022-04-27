@@ -21,32 +21,38 @@
             this.printList();
         }
         shiftLinkedList(n) {
-            let first = this.head;
-            let sec = this.head;
+            let linkedListLength=0;
+            let cur=this.head;
+            while(cur){
+                linkedListLength++;
+                cur=cur.next;
+            }
+            let offset=Math.abs(n)%linkedListLength;
+            if(offset==0) return;
 
-            let i = 0;
-            while (first) {
-                if (i == n) break;
-                first = first.next;
-                i++;
-            }
-            while (first.next) {
-                sec = sec.next;
-                first = first.next;
-            }
-            let stored=sec.next;
-            //console.log(sec,stored);
-            sec.next=null;
-            
-            
-            let cur=stored;
-            while(cur.next){
+            let toRun= linkedListLength-offset;
+            console.log(offset,linkedListLength-offset);
+            cur=this.head;
+            let prev;
+            for(let i=0;i<toRun;i++){
+                prev=cur;
                 cur=cur.next;
             }
             
+            console.log(prev,cur);
+
+            let stored=prev.next;
+            prev.next=null;
+            
+            cur=stored;
+            while(cur.next){
+                cur=cur.next;
+            }
             cur.next=this.head;
             this.head=stored;
-            //console.log(stored);
+            console.log(stored);
+            
+
             this.printList();
         }
         printList() {

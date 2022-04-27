@@ -1,0 +1,104 @@
+<script>
+    class LinkedList {
+        constructor() {
+            this.head = null;
+        }
+        insert(el) {
+            let newNode = new Node(el);
+            if (this.head == null) {
+                this.head = newNode;
+            } else {
+                let cur = this.head;
+                while (cur) {
+                    if (cur.next == null) {
+                        cur.next = newNode;
+                        break;
+                    } else {
+                        cur = cur.next;
+                    }
+                }
+            }
+            this.printList();
+        }
+        zipLinkedList() {
+
+
+            let fast = this.head;
+            let slow = this.head;
+
+            while (fast.next) {
+
+                if (fast.next.next == null) break;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            let reversed = this.reverseLinkedList(slow.next);
+            slow.next = null;
+            let cur = this.head;
+            let tmp;
+            let isSwitch = true;
+            let tmmp;
+            if (reversed == null) return linkedList;
+            while (cur && reversed.next) {
+                console.log(reversed);
+                tmmp = cur.next;
+                tmp = reversed.next;
+                cur.next = reversed;
+                reversed.next = tmmp;
+                cur = tmmp;
+                reversed = tmp;
+            }
+            if (cur.next) {
+                while (cur.next) {
+                    tmmp = cur.next;
+                    cur.next = reversed;
+                    reversed.next = tmmp;
+                    cur = tmmp;
+                }
+            } else {
+                cur.next = reversed;
+            }
+
+            console.log(cur, reversed);
+            this.printList();
+
+        }
+        reverseLinkedList(list) {
+            let cur = list;
+            let prev = null;
+            while (cur) {
+                let tmp = cur.next;
+                cur.next = prev;
+                prev = cur;
+                cur = tmp;
+            }
+            return prev;
+        }
+        printList() {
+            let cur = this.head;
+            let arr = [];
+            while (cur) {
+                arr.push(cur.value);
+                cur = cur.next;
+
+            }
+            console.log(arr.join("->"));
+        }
+
+    }
+    class Node {
+        constructor(data, next = null) {
+            this.value = data;
+            this.next = next;
+        }
+    }
+    let obj = new LinkedList();
+    for (let el of [0, 1, 2, 3, 4, 5, 6]) {
+        obj.insert(el);
+    }
+
+    console.log(obj.zipLinkedList());
+    //console.log(obj);
+
+
+</script>
