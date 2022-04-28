@@ -1,0 +1,55 @@
+<script>
+    class LinkedList {
+        constructor() {
+            this.head = null;
+        }
+        insert(el) {
+            let newNode = new Node(el);
+            if (this.head == null) {
+                this.head = newNode;
+            } else {
+                let cur = this.head;
+                while (cur) {
+                    if (cur.next == null) {
+                        cur.next = newNode;
+                        break;
+                    } else {
+                        cur = cur.next;
+                    }
+                }
+            }
+            this.printList();
+        }
+        nodeSwipe(n) {
+            
+            this.printList();
+        }
+        printList() {
+            let cur = this.head;
+            let arr = [];
+            while (cur) {
+                arr.push(cur.value);
+                cur = cur.next;
+
+            }
+            console.log(arr.join("->"));
+        }
+
+    }
+    class Node {
+        constructor(data, next = null) {
+            this.value = data;
+            this.next = next;
+        }
+    }
+    let obj = new LinkedList();
+    for (let el of [0, 1, 2, 3, 4, 5]) {
+        obj.insert(el);
+    }
+    console.log(obj);
+    
+    console.log(obj.nodeSwipe());
+    //console.log(obj);
+
+
+</script>

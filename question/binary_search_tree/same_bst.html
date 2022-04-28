@@ -1,0 +1,39 @@
+<script>
+    //let arrayOne=[10, 15, 8, 12, 94, 81, 5, 2, 10];
+    //let arrayTwo=[10, 8, 5, 15, 2, 10, 12, 94, 81];
+
+    let arrayOne=[10, 15, 8, 12, 94, 81, 5, 2, 11];
+    let arrayTwo=[10, 8, 5, 15, 2, 12, 11, 94, 81];
+
+
+    console.log(arrayOne.join(","));
+    console.log(arrayTwo.join(","));
+    console.log(sameBsts(arrayOne,arrayTwo));
+    function sameBsts(arrayOne,arrayTwo){
+        if(arrayOne.length!=arrayTwo.length) return false;
+        if(arrayOne[0]!=arrayTwo[0]) return false;
+
+        let largeArrayOne=[];
+        let smallArrayOne=[];
+        for(let i=1;i<arrayOne.length;i++){
+            if(arrayOne[0]<=arrayOne[i]){
+                largeArrayOne.push(arrayOne[i]);
+            }else{
+                smallArrayOne.push(arrayOne[i])
+            }
+        }
+        let largeArrayTwo=[];let smallArrayTwo=[];
+        for(let i=1;i<arrayTwo.length;i++){
+            if(arrayTwo[0]<=arrayTwo[i]){
+                largeArrayTwo.push(arrayTwo[i]);
+            }else{
+                smallArrayTwo.push(arrayTwo[i])
+            }
+        }
+        if(arrayTwo.length>1 || arrayOne.length>1){
+            return sameBsts(largeArrayOne,largeArrayTwo) && sameBsts(smallArrayOne,smallArrayTwo);
+        }
+        
+        return true;
+    }
+</script>
