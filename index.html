@@ -6,7 +6,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    
 </head>
 
 <body>
@@ -16,7 +22,7 @@
         <!--<p>Contextual classes can be used to color the table, table rows or table cells. The classes that can be used
             are: .table-primary, .table-success, .table-info, .table-warning, .table-danger, .table-active,
             .table-secondary, .table-light and .table-dark:</p>-->
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover" id="tableId">
             <thead>
                 <tr>
                     <th>Topic</th>
@@ -59,15 +65,21 @@
         {type:"Linked List",level:3,question:"Shift by n node",file:"linked_list/shift_by_n_node.html"},
         {type:"Linked List",level:4,question:"Rearrange linked list",file:"linked_list/rearrange_linked_list.html"},
         {type:"Linked List",level:4,question:"Zip linked list",file:"linked_list/zip_linked_list.html"},
-        
+        {type:"Linked List",level:4,question:"Node swipe",file:"linked_list/node_swipe.html"},
+    
     ];
     let arrayQuestion=[
         {type:"Array",level:1,question:"Arrays sum",file:"array/arrays_sum.html"},
        
     ];
 
+    let bstQuestion=[
+        {type:"Binary Search Tree",level:3,question:"Same bst",file:"binary_search_tree/same_bst.html"},
+       
+    ];
+    //.html
 
-    let questions=[...graphsquestions,...binaryTreeQuestion,...recursionQuestion,...linkedListQuestion,...arrayQuestion];
+    let questions=[...graphsquestions,...binaryTreeQuestion,...recursionQuestion,...linkedListQuestion,...arrayQuestion,...bstQuestion];
     let html="";
     for(let quest of questions){
         let level="<span style='color:#04ff00'>Easy</span>";
@@ -86,5 +98,11 @@
         </tr>`;
     }
     document.getElementById("questionTbody").innerHTML=html;
+
+    $(document).ready( function () {
+    $('#tableId').DataTable({
+        "pageLength": 100
+    });
+} );
 </script>
 </html>
