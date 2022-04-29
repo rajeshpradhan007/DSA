@@ -20,8 +20,15 @@
             }
             this.printList();
         }
-        nodeSwipe(n) {
+        nodeSwipe() {   
             
+            let cur=this.head;
+            while(cur && cur.next){
+                var k = cur.value;
+                cur.value = cur.next.value;
+                cur.next.value = k;
+                cur = cur.next.next;
+            }
             this.printList();
         }
         printList() {
@@ -43,7 +50,8 @@
         }
     }
     let obj = new LinkedList();
-    for (let el of [0, 1, 2, 3, 4, 5]) {
+    for (let el of [0, 1, 2, 3, 4, 5,6]) {
+    //for (let el of [0, 1, 2, 3, 4, 5]) {
         obj.insert(el);
     }
     console.log(obj);
