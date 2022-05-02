@@ -1,0 +1,37 @@
+<script>
+    let arr=[1,2,4,7,10,11,7,12,6,7,16,18,19];
+    console.log(subarraySort(arr));
+    function subarraySort(arr){
+        let min=Infinity;
+        let max=-Infinity;
+        for (let i = 0; i < arr.length; i++) {
+            const element = arr[i];
+            if(isOutOfOrder(i,element,arr)){
+                min=Math.min(min,element);
+                max=Math.max(max,element);
+            }
+        }
+        console.log(min,max);
+        if(min==Infinity) return [-1,-1];
+        let leftIdx=0;
+        for (let i = 0; i < arr.length; i++) {
+            if(arr[i]>=min){
+                break;
+            }
+            leftIdx++;
+        }
+        let rightIdx=arr.length-1;
+        for (let i = arr.length-1; i>=0; i--) {
+            if(arr[i]<=max){
+                break;
+            }
+            rightIdx--;
+        }
+        console.log(leftIdx,rightIdx);
+    }
+    function isOutOfOrder(i,element,arr){
+        if(i==0) return element > arr[i+1];
+        if(i==arr.length-1) return element < arr[i-1];
+        return element < arr[i-1] || element > arr[i+1];
+    }
+</script>

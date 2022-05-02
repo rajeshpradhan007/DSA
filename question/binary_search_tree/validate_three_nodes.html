@@ -1,0 +1,95 @@
+<script>
+    class Bst{
+        constructor(){
+            this.root=null;
+            this.length=0;
+        }
+        push(val){
+            if(!this.root){
+                let obj=new Node(val);
+                this.root=obj;
+            }else{
+                let obj=new Node(val);
+                let cur=this.root;
+                while(true){
+                    if(cur.value==val) return undefined;
+                    if(cur.value > val){
+                        if(cur.left==null){
+                            cur.left=obj;
+                            return;
+                        }
+                        cur=cur.left;
+                    }
+                    if(cur.value < val){
+                        if(cur.right==null){
+                            cur.right=obj;	
+                            return; 
+                        }
+                        cur=cur.right;
+                    }
+                }
+            }
+        }
+        validNodes(nodeOne,nodeTwo,nodeThree){
+            let cur=this.root;
+            let head;
+            let body;
+            let foot;
+            while(cur){
+                if(head && body && foot && cur.value==foot){
+                    return true;
+                }
+                if(head && body && foot && cur.value!=foot){
+                    if(cur.value > foot){
+                        cur=cur.left;
+                    }else if(cur.value <= foot){
+                        cur=cur.right;
+                    }
+                }else if(head && !body && cur.value==nodeTwo){
+                    body=true;
+                    if(cur.value > foot){
+                        cur=cur.left;
+                    }else if(cur.value <= foot){
+                        cur=cur.right;
+                    }
+                }else if(!head && cur.value==nodeOne){
+                    head=cur;
+                    foot=nodeThree;
+                    if(cur.value > foot){
+                        cur=cur.left;
+                    }else if(cur.value <= foot){
+                        cur=cur.right;
+                    }
+                }else if(!head && cur.value==nodeThree){
+                    head=cur;
+                    foot=nodeOne;
+                    if(cur.value > foot){
+                        cur=cur.left;
+                    }else if(cur.value <= foot){
+                        cur=cur.right;
+                    }
+                }
+                console.log(cur);
+                //break;
+            }
+            return false;
+
+        }
+        
+    }
+    class Node{
+        constructor(val){
+            this.value=val;
+            this.left=null;
+            this.right=null;
+        }
+    }
+    
+    let tt=new Bst();
+    
+    let arr=[5,2,1,4,0,3,7,6,8]
+    for(let i in arr){
+        tt.push(arr[i]);
+    }
+    console.log(tt.validNodes(5,2,3));
+    </script>
