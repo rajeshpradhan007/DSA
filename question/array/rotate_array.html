@@ -1,0 +1,22 @@
+<script>
+    function rotateArray(A, B) {
+        let newB = (B => A.length) ? B % A.length : B;
+        let i = 0;
+        while (i < newB) {
+            let pop = A.shift();
+            A = [...A, pop];
+            i++;
+        }
+        return A;
+
+        /*
+        let n = B % A.length;
+        return A.slice(n).concat(A.slice(0, n));
+        */
+
+    }
+    //console.log(rotateArray([14,5,14,34,42,63,17,25,39,61,97,55,33,96,62,32,98,77,35], 56));
+    //35 14 5 14 34 42 63 17 25 39 61 97 55 33 96 62 32 98 77 
+    console.log(rotateArray([28, 68, 100, 90, 46, 58, 54, 74], 78));
+ //54 74 28 68 100 90 46 58
+</script>
