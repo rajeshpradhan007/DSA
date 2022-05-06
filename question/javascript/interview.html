@@ -1,0 +1,35 @@
+<script>
+    Array.prototype.myNewFun = function () {
+        let res = [];
+        for (let i = 0; i < this.length; i++) {
+            res.push(this[i] * 2);
+        }
+        return res;
+    }
+    let array = [1, 2, 3, 4, 5];
+    let ress = array.myNewFun();
+    console.log(ress);
+
+    Array.prototype.newMap = function (cb) {
+        let res = [];
+        for (let i = 0; i < this.length; i++) {
+            res.push(cb(this[i], i, this));
+        }
+        return res;
+    }
+    array = [1, 2, 3, 4, 5];
+    let resss = array.newMap((el) => el * 3);
+    console.log(resss);
+
+
+    let name2 = "raj";
+    function init() {
+        let name = "rajesh";
+        inner = () => {
+            console.log(name, name2);
+        }
+        inner();
+    }
+    init();
+
+</script>

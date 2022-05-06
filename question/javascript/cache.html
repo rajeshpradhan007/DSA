@@ -1,0 +1,108 @@
+<script>
+    function memory(fn) {
+        let cache = {};
+        return (...args) => {
+            let str = JSON.stringify(args);
+            if (!cache[str]) {
+                cache[str] = fn.call(this, ...args);
+            }
+            return cache[str];
+        }
+    }
+    let product = (a, b) => { for (i = 0; i < 1000000000; i++) { } return a * b }
+    let funn = memory(product);
+
+    let add = (a, b) => a + b;
+
+
+    console.log(funn(2333, 3654));
+    //console.log(funn(2333, 3654));
+
+    const person = {
+        firstName: "John",
+        lastName: "Doe",
+        fullName: function () {
+            return this.firstName + " " + this.lastName;
+        }
+    }
+
+    // This will return "John Doe":
+    console.log(person.fullName.call({ firstName: "rajesh", lastName: "pradhan" }));
+
+
+
+    function adding(...a) {
+        let sum = 0;
+        for (let i in a) {
+            sum += a[i];
+        }
+        a = sum;
+        return function (...b) {
+            let summ = 0;
+            for (let i in b) {
+                summ += b[i];
+            }
+            b = summ;
+            if (b) return adding(a + b);
+            return a;
+        };
+
+    }
+
+
+    console.log(adding(5, 1)(4)(3, 1)(1)(1)());
+
+    let arr = [
+        [1, 2],
+        [3, 4],
+        [5, 6, [7, 8]],
+        9,
+        [10, 11, [12, 13, [14, 15]]]
+
+    ];
+
+    /*
+    let res = [];
+    for (let i in arr) {
+        res = [...res, ...arr[i]];
+    }
+    */
+
+    //console.log(res);
+
+    function flat(arr) {
+        let res = [];
+        arr.forEach(element => {
+            if (Array.isArray(element)) {
+                res.push(...flat(element));
+            } else {
+                res.push(element);
+            }
+        });
+        return res;
+    }
+    console.log(flat(arr));
+
+    for (var i = 0; i < 5; i++) {
+        (function (i) {
+            setTimeout(() => {
+                console.log(i);
+            }, 1000);
+        })(i);
+
+    }
+    //compose polyfill
+    let addd = (a) => a + 5;
+    let sub = (a) => a - 5;
+    let prodd = (a) => a * 5;
+    //let ress=compose(addd,sub,prodd);
+    //console.log(ress);
+    let pipe = (...fns) => x => fns.reduce((v, f) => f(v), x)
+    let pipeRes = pipe(addd, sub, prodd);
+    console.log(pipeRes(20));
+
+    let compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x)
+    let composeRes = compose(addd, sub, prodd);
+    console.log(composeRes(30));
+
+</script>
