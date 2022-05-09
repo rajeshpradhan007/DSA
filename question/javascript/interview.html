@@ -32,4 +32,45 @@
     }
     init();
 
+
+    let addd = (a) => a + 5;
+    let sub = (a) => a - 5;
+    let prodd = (a) => a * 5;
+
+    let composer = (...args) => x => args.reduce((last, cur) => cur(x));
+
+
+    let combineRes = composer(addd, sub, prodd);
+    console.log(combineRes(30));
+    //console.log(combineRes);
+
+    let arr = [4, 5, 6, 7, 8, 9];
+
+    /*
+    async function asyncPrint() {
+        for (let el of arr) {
+            await print(el);
+        }
+    }
+    asyncPrint();
+    async function print(num) {
+        return new Promise((res) => {
+            setTimeout(() => {
+                console.log(num);
+                res();
+            }, 1000)
+        });
+    }
+    */
+    arr.reduce((last, cur) => {
+        return last.then(() => {
+            return new Promise((res) => {
+                setTimeout(() => {
+                    console.log(cur);
+                    res();
+                }, 1000);
+            })
+        })
+    }, Promise.resolve())
+
 </script>
