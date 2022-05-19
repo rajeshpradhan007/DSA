@@ -1,0 +1,71 @@
+<script>
+    class Node {
+        constructor(val) {
+            this.value = val;
+            this.left = null;
+            this.right = null;
+            this.isEnd = true;
+        }
+    }
+    class traverse {
+        constructor() {
+            this.root = null;
+        }
+        push(el) {
+            let node = new Node(el);
+            if (!this.root) {
+                this.root = node;
+            } else {
+                let cur = this.root;
+                this.helper(el, cur);
+            }
+        }
+        helper(el, cur) {
+            let queue = [cur];
+            while (queue.length) {
+                console.log("Start", el, queue)
+                let pop = queue.shift();
+                if (pop.left == null) {
+                    if (el !== null) {
+                        pop.left = new Node(el);
+                    } else {
+                        pop.left = null;
+                    }
+                    return
+                } else if (pop.right == null) {
+                    if (el !== null) {
+                        pop.right = new Node(el);
+
+                    } else {
+                        pop.right = null;
+                    }
+                    return
+                } else {
+                    if (pop.left) queue.push(pop.left);
+                    if (pop.right) queue.push(pop.right);
+                }
+                console.log("End", queue)
+            }
+
+        }
+    }
+    let tt = new traverse();
+    let stt = [1, 2, 3, 4, 5, null, 6, null, null, null, null, null, null, 7, 8];
+    console.log(stt.join(","))
+    for (let i in stt) {
+        //tt.push(stt[i], tt);
+    }
+    console.log(tt);
+
+    console.log('================');
+    function createTree(arr, i) {
+        if (i < arr.length && arr[i] !== null) {
+            const node = new Node(arr[i]);
+            node.left = createTree(arr, 2 * i + 1);
+            node.right = createTree(arr, 2 * i + 2);
+            return node;
+        }
+        return null;
+    }
+    console.log(createTree(stt, 0));
+</script>
