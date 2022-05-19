@@ -1,81 +1,81 @@
 <script>
-class Node{
-        constructor(val){
-            this.value=val;
-            this.left=null;
-            this.right=null;
+    class Node {
+        constructor(val) {
+            this.value = val;
+            this.left = null;
+            this.right = null;
         }
     }
-    class traverse{
-        constructor(){
-            this.path=[];
-            this.root=null;
+    class traverse {
+        constructor() {
+            this.path = [];
+            this.root = null;
         }
-        push(el){
-            let node=new Node(el);
-            if(!this.root){
-                this.root=node;
-            }else{
-                let cur=this.root;
-                while(true){
-                    if(cur.value==el) return;
-                    if(cur.value > el){
-                        if(cur.left==null){
-                            cur.left=node;
+        push(el) {
+            let node = new Node(el);
+            if (!this.root) {
+                this.root = node;
+            } else {
+                let cur = this.root;
+                while (true) {
+                    if (cur.value == el) return;
+                    if (cur.value > el) {
+                        if (cur.left == null) {
+                            cur.left = node;
                             return;
                         }
-                        cur=cur.left;
-                    } 
-                     if(cur.value < el){
-                        if(cur.right==null){
-                            cur.right=node;
+                        cur = cur.left;
+                    }
+                    if (cur.value < el) {
+                        if (cur.right == null) {
+                            cur.right = node;
                             return;
                         }
-                        cur=cur.right;
+                        cur = cur.right;
                     }
                 }
             }
         }
-        BFS(){
-            let path=[];
-            let queue=[];
+        BFS() {
+            let path = [];
+            let queue = [];
             let cur;
             queue.push(this.root);
-            while(queue.length){
-                cur=queue.shift();
+            while (queue.length) {
+                cur = queue.shift();
                 path.push(cur.value);
-                if(cur.left) queue.push(cur.left);
-                if(cur.right) queue.push(cur.right);
+                if (cur.left) queue.push(cur.left);
+                if (cur.right) queue.push(cur.right);
             }
             return path;
         }
-		levelOrder(bs){
-			var res=[];
-			var queue=[];
-			var cur;
-			queue.push(bs);
-			while(queue.length>0){
-				var queueLength=queue.length;
-				var tempArr=[];
-				while(queueLength >0){
-					cur=queue.shift();
-					tempArr.push(cur.value);
-					if(cur.left) queue.push(cur.left);
-					if(cur.right) queue.push(cur.right);
-					queueLength--;
-				}
-				res.push(tempArr);
-			}
-			return res;
-		}
-	}
-	let tt=new traverse();
-	let stt=[25,15,50,10,22,35,70,4,12,18,24,31,44,66,90,77,69];
-	for(let i in stt){
-		tt.push(stt[i]);
-	}
+        levelOrder(bs) {
+            var res = [];
+            var queue = [];
+            var cur;
+            queue.push(bs);
+            while (queue.length > 0) {
+                var queueLength = queue.length;
+                var tempArr = [];
+                while (queueLength > 0) {
+                    cur = queue.shift();
+                    tempArr.push(cur.value);
+                    if (cur.left) queue.push(cur.left);
+                    if (cur.right) queue.push(cur.right);
+                    queueLength--;
+                }
+                res.push(tempArr);
+            }
+            return res;
+        }
+    }
+    let tt = new traverse();
+    let stt = [25, 15, 50, 10, 22, 35, 70, 4, 12, 18, 24, 31, 44, 66, 90, 77, 69];
+    for (let i in stt) {
+        tt.push(stt[i]);
+    }
     console.log(tt);
     console.log(tt.BFS());
-	console.log('================');
-	console.log(tt.levelOrder(tt.root));
+    console.log('================');
+    console.log(tt.levelOrder(tt.root));
 </script>

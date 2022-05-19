@@ -1,0 +1,16 @@
+<script>
+    function back(str, n) {
+
+        if (str.length == n) {
+            console.log(str);
+            return
+        }
+        back("0" + str, n);
+        if (str[0] != undefined && str[0] != "1") {
+            back("1" + str, n);
+        } else if (str.length == 0) {
+            back("1" + str, n);
+        }
+    }
+    back("", 4)
+</script>
