@@ -1,103 +1,103 @@
 <style>
-.grid{
-height: 40px;
-width: 40px;
-background: gold;
-border: 1px solid black;
-text-align: center;
-line-height: 40px;
-}
+    .grid {
+        height: 40px;
+        width: 40px;
+        background: gold;
+        border: 1px solid black;
+        text-align: center;
+        line-height: 40px;
+    }
 </style>
 <div id="sudoku-div">
 </div>
 <button onclick="solve()" type="button">Solve</button>
 <script>
-let n=9;
-function generateGrid(){
-	
-	let html='';
-	for(let j=0;j<n;j++){
-		let stylee='';
-		if(j%3==0){
-			stylee='border-top: 2px solid black;';
-		}
-		html+=`<div style="display: flex;">`;
-		for(let i=0;i<n;i++){
-			let style='';
-			if(i%3==0){
-				style=`border-left: 2px solid black;`;
-			}
-			
-			html+=`<div class="grid" style="${style}${stylee}" id="${j+"_"+i}"></div>`;
-		}
-		html+=`</div>`;
-	}
-	document.getElementById('sudoku-div').innerHTML=html;
-}
-let garr=new Map();
-let arr={
-		"0_6":2,
-		"1_1":8,
-		"1_5":7,
-		"1_7":9,
-		"2_0":6,
-		"2_2":2,
-		"2_6":5,
-		"3_1":7,
-		"3_4":6,
-		"4_3":9,
-		"4_5":1,
-		"5_4":2,
-		"5_7":4,
-		"6_2":5,
-		"6_6":6,
-		"6_8":3,
-		"7_1":9,
-		"7_3":4,
-		"7_7":7,
-		"8_2":6,
-		};
-function fillInit(){
-	for(let i in arr){
-		garr.set(i,arr[i]);
-		document.getElementById(i).innerHTML=arr[i];
-	}
-}
-function solveVertical(i){
-	let map=new Map();
-	
-	for(let x=0;x<n;x++){
-		let st=x+"_"+i;
-		let val=0;
-		if(arr[st]!=undefined){
-			val=arr[st];
-		}
-		map.set(x,val);
-		document.getElementById(st).style.background='green';
-	}
-	console.log(map);
-	for(let x=6;x<=n;x++){
-		if(map.get(x)==0){
-			console.log("el",x)
-			for(let y=0;y<n;y++){
-				let st=y+"_"+i;
-				console.log('currcheck',st);
-				for(let z=0;z<n;z++){
-					let posIndex=y+"_"+z;
-					if(garr.get(posIndex)==x) continue;
-					console.log(y+"_"+z);
-				}
-			}
-			
-		}
-	}
-}
-function solveHorizontal(j){
+    let n = 9;
+    function generateGrid() {
 
-}
-function solve(){
-	solveVertical(5);
-}
-generateGrid();
-fillInit();
+        let html = '';
+        for (let j = 0; j < n; j++) {
+            let stylee = '';
+            if (j % 3 == 0) {
+                stylee = 'border-top: 2px solid black;';
+            }
+            html += `<div style="display: flex;">`;
+            for (let i = 0; i < n; i++) {
+                let style = '';
+                if (i % 3 == 0) {
+                    style = `border-left: 2px solid black;`;
+                }
+
+                html += `<div class="grid" style="${style}${stylee}" id="${j + "_" + i}"></div>`;
+            }
+            html += `</div>`;
+        }
+        document.getElementById('sudoku-div').innerHTML = html;
+    }
+    let garr = new Map();
+    let arr = {
+        "0_6": 2,
+        "1_1": 8,
+        "1_5": 7,
+        "1_7": 9,
+        "2_0": 6,
+        "2_2": 2,
+        "2_6": 5,
+        "3_1": 7,
+        "3_4": 6,
+        "4_3": 9,
+        "4_5": 1,
+        "5_4": 2,
+        "5_7": 4,
+        "6_2": 5,
+        "6_6": 6,
+        "6_8": 3,
+        "7_1": 9,
+        "7_3": 4,
+        "7_7": 7,
+        "8_2": 6,
+    };
+    function fillInit() {
+        for (let i in arr) {
+            garr.set(i, arr[i]);
+            document.getElementById(i).innerHTML = arr[i];
+        }
+    }
+    function solveVertical(i) {
+        let map = new Map();
+
+        for (let x = 0; x < n; x++) {
+            let st = x + "_" + i;
+            let val = 0;
+            if (arr[st] != undefined) {
+                val = arr[st];
+            }
+            map.set(x, val);
+            document.getElementById(st).style.background = 'green';
+        }
+        console.log(map);
+        for (let x = 6; x <= n; x++) {
+            if (map.get(x) == 0) {
+                console.log("el", x)
+                for (let y = 0; y < n; y++) {
+                    let st = y + "_" + i;
+                    console.log('currcheck', st);
+                    for (let z = 0; z < n; z++) {
+                        let posIndex = y + "_" + z;
+                        if (garr.get(posIndex) == x) continue;
+                        console.log(y + "_" + z);
+                    }
+                }
+
+            }
+        }
+    }
+    function solveHorizontal(j) {
+
+    }
+    function solve() {
+        solveVertical(5);
+    }
+    generateGrid();
+    fillInit();
 </script>
