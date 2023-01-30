@@ -1,0 +1,49 @@
+<pre>
+
+</pre>
+<script>
+    //let input = [['A', 'B', 'C', 'D'], ['A', 'B', 'C', 'D'], ['A', 'B', 'C', 'D']];
+    //let input = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]];
+    //let input = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]];
+    //let input = [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]];
+    //let input = [["C", "A", "A"], ["A", "A", "A"], ["B", "C", "D"]];
+    let input = [["A", "B", "C", "E"], ["S", "F", "E", "S"], ["A", "D", "E", "E"]]; //77
+    function wordSearch(inputArr, word) {
+        inputArr.map(el => console.log(el.join(",")));
+        console.log(word);
+        let setObj = new Set();
+        for (let i = 0; i < input.length; i++) {
+            for (let j = 0; j < input[0].length; j++) {
+                if (isFound(inputArr, i, j, setObj, 0, word)) {
+                    return true;
+                } else {
+                    setObj = new Set();
+                }
+            }
+        }
+        return false;
+    }
+    function isFound(inputArr, i, j, setObj, currentIdx, word) {
+        if (word.length == currentIdx) return true;
+        let tmpIdx = i + "_" + j;
+        if (inputArr.length == i || setObj.has(tmpIdx) || i >= inputArr.length || j >= inputArr[0].length || i < 0 || j < 0 || word[currentIdx] != inputArr[i][j]) return false;
+
+        setObj.add(tmpIdx);
+        if (isFound(inputArr, i, j + 1, setObj, currentIdx + 1, word) ||
+            isFound(inputArr, i, j - 1, setObj, currentIdx + 1, word) ||
+            isFound(inputArr, i + 1, j, setObj, currentIdx + 1, word) ||
+            isFound(inputArr, i - 1, j, setObj, currentIdx + 1, word)) {
+            return true;
+        }
+        setObj.delete(tmpIdx);
+    }
+
+    //console.log(wordSearch(input, 'ABBCC'));
+    //console.log(wordSearch(input, 'ABCCED'));
+    //console.log(wordSearch(input, 'SEE'));
+    //console.log(wordSearch(input, 'ABCB'));
+    //console.log(wordSearch(input, 'AAB'));
+    console.log(wordSearch(input, 'ABCESEEEFS')); //true
+
+
+</script>

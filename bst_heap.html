@@ -38,8 +38,11 @@
 			return this.values;
 		}
 		extractMax(){
+		let ell=this.values[0];
 			let lastIndex=this.values.length-1;
+
 			this.values[0]=this.values[lastIndex];
+			
 			this.values.pop();
 			
 			let leftChildIndex=1;
@@ -65,7 +68,8 @@
 					rightChildIndex=2*parentIndex+2;
 				}
 			}
-			return this.values;
+			//return this.values;
+			return ell;
 		}
 		pushMin(el){
 			this.valuesMin.push(el);
@@ -122,20 +126,95 @@
         
     }
     let tt=new traverse();
-	let stt=[25,15,50,10,22,35,70,4,12,18,24,31,44,66,90];
+	//let stt=[25,15,50,10,22,35,70,4,12,18,24,31,44,66,90];
 	//let stt=[25,15,50,10,22,35];
+	let stt=[-4, 5, 10, 8, -10, -6, -4, -2, -5, 3, 5, -4, -5, -1, 1, 6, -7, -6, -7, 8];
 	for(let i in stt){
 		tt.pushMax(stt[i]);
 	}
 	console.log("==========Max Heap============");
     console.log(tt.values.toString());
 	
-	console.log("extractMax==> ",tt.extractMax().toString());
+	let newArr=[];
+	for(let i in stt){
+		//newArr.push(tt.extractMax());
+	}
+	//console.log("extractMax==> ",tt.extractMax().toString());
+	//console.log(newArr);
 	console.log("======================");
-	console.log("==========Min Heap============");
+	//console.log("==========Min Heap============");
     for(let i in stt){
 		tt.pushMin(stt[i]);
 	}
-	console.log(tt.valuesMin.toString());
-	console.log("extractMin==> ",tt.extractMin().toString());
+	//console.log(tt.valuesMin.toString());
+	//console.log("extractMin==> ",tt.extractMin().toString());
+	
+	
+	
+	//-----------------------------------------------------------
+	
+	//let arr=[4,3,8,2,9,5,1,6,5];
+let array=[-4, 5, 10, 8, -10, -6, -4, -2, -5, 3, 5, -4, -5, -1, 1, 6, -7, -6, -7, 8];
+let result=[];
+for(let el of array){
+		result.push(el);
+  	bubbleUp();
+}
+function swap(result,curIdx,parentsIdx){
+	let tmp=result[curIdx];
+  result[curIdx]=result[parentsIdx];
+  result[parentsIdx]=tmp;
+}
+function bubbleUp(){
+		//result[result.length-1];
+    let lastIdx=result.length-1;
+    let parentIdx=Math.floor((lastIdx-1)/2);
+    let isPlaceOk=true;
+    while(isPlaceOk){
+    	isPlaceOk=false;
+    	if(result[parentIdx] < result[lastIdx]){
+      	swap(result,lastIdx,parentIdx);
+        lastIdx=parentIdx;
+      	parentIdx=Math.floor((parentIdx-1)/2);
+        isPlaceOk=true;
+      }
+    }
+}
+console.log(result);
+function extractMax(){
+	let firstEl=result.shift();
+  result.unshift(result.pop());
+  let largeIdx=0;
+  let leftIdx=2;
+  let rightIdx=1;
+  let isPlaceOk=true;
+  while(isPlaceOk){
+  	isPlaceOk=false;
+  	let newLargeIdx=largeIdx;
+    if(result[newLargeIdx] < result[leftIdx]){
+    	newLargeIdx=leftIdx;
+    }
+    if(result[newLargeIdx] < result[rightIdx]){
+    	newLargeIdx=rightIdx;
+    }
+    if(newLargeIdx!=largeIdx){
+    	swap(result,newLargeIdx,largeIdx);
+      largeIdx=newLargeIdx;
+      leftIdx=2*largeIdx+1;
+      rightIdx=2*largeIdx+2;
+      isPlaceOk=true;
+    }
+  }
+  
+  
+  return firstEl;
+}
+let count=result.length;
+let finalRes=[];
+for(let i=0;i<count;i++){
+	finalRes.push(extractMax());
+}
+
+console.log(finalRes.toString());
+
 </script>

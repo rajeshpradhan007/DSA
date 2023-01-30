@@ -1,0 +1,35 @@
+<style>
+</style>
+<div id="sudoku-div">
+</div>
+<script>
+    function generateGrid() {
+        for (let j = 0; j < 9; j++) {
+            let myElm = document.createElement("div");	// Create a new element
+
+            myElm.style.color = 'red';		// Change the text color of the element
+            myElm.style.display = 'flex';
+            myElm.id = j;
+            if (j % 3 == 0) {
+                myElm.style.borderTop = '3px solid gray';
+            }
+            document.body.appendChild(myElm);
+            for (let k = 0; k < 9; k++) {
+                let myElm = document.createElement("div");
+                myElm.innerText = 'gg';
+                myElm.style.color = 'green';
+                myElm.style.height = '60px';
+                myElm.style.width = '60px';
+                myElm.style.textAlign = 'center';
+                myElm.style.lineHeight = '60px';
+                myElm.style.border = '1px solid gray';
+                myElm.id = j + "-" + k;
+                if (k % 3 == 0) {
+                    myElm.style.borderLeft = '3px solid gray';
+                }
+                document.getElementById(j).appendChild(myElm);
+            }
+        }
+    }
+    generateGrid()
+</script>
