@@ -1,43 +1,55 @@
-
 <script>
-//O(n*n!) time | O(n*n!) space
-let arr=[1,2,3,4];
-console.log(permutationHelper(arr,0));
-function permutationHelper(arr,idx){
-    if(arr.length==idx){
-        console.log(arr.slice());
-        return
+    //O(n*n!) time | O(n*n!) space
+    let arr = [1, 2, 3, 4];
+    console.log(permutationHelper(arr, 0));
+    function permutationHelper(arr, idx) {
+        if (arr.length == idx) {
+            console.log(arr.slice());
+            return
+        }
+        for (let j = idx; j < arr.length; j++) {
+            swap(arr, j, idx);
+            permutationHelper(arr, idx + 1);
+            swap(arr, idx, j);
+        }
     }
-    for(let j=idx;j<arr.length;j++){
-        swap(arr,j,idx);
-        permutationHelper(arr,idx+1);
-        swap(arr,idx,j);
+    function swap(arr, i, j) {
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
-}
-function swap(arr,i,j){
-    let temp=arr[i];
-    arr[i]=arr[j];
-    arr[j]=temp;
-}
 
-console.log(permutationStrHelper("abc",0));
-function permutationStrHelper(str,idx){
-    if(str.length==idx){
-        console.log("final",str);
-        return
+    console.log(permutationStrHelper("abc", 0));
+    function permutationStrHelper(str, idx) {
+        if (str.length == idx) {
+            console.log("final", str);
+            return
+        }
+        for (let j = idx; j < str.length; j++) {
+            str = swapStr(str, j, idx);
+            permutationStrHelper(str, idx + 1);
+            str = swapStr(str, idx, j);
+        }
     }
-    for(let j=idx;j<str.length;j++){
-        str=swapStr(str,j,idx);
-        permutationStrHelper(str,idx+1);
-        str=swapStr(str,idx,j);
+    function swapStr(str, i, j) {
+        let exStr = str.split("");
+        let temp = exStr[i];
+        exStr[i] = exStr[j];
+        exStr[j] = temp;
+        str = exStr.join("");
+        return str;
     }
-}
-function swapStr(str,i,j){
-    let exStr=str.split("");
-    let temp=exStr[i];
-    exStr[i]=exStr[j];
-    exStr[j]=temp;
-    str=exStr.join("");
-    return str;
-}
+
+    //Easy
+    let arrInput = [1, 2, 3, 4];
+    let res = [];
+    for (let i = 0; i < arrInput.length; i++) {
+        for (let j = 0; j < arrInput.length; j++) {
+            let tmp = arrInput[j];
+            arrInput[j] = arrInput[i];
+            arrInput[i] = tmp;
+            res.push(arrInput.slice());
+        }
+    }
+    console.log(res, res.length);
 </script>
