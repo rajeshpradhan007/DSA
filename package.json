@@ -1,0 +1,22 @@
+{
+    "name": "algo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest questions"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rajeshpradhan007/DSA.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/rajeshpradhan007/DSA/issues"
+    },
+    "homepage": "https://github.com/rajeshpradhan007/DSA#readme",
+    "devDependencies": {
+        "jest": "^29.5.0"
+    }
+}
