@@ -1,4 +1,4 @@
-const code = require("../rearrangeAnArrayInMaxMin");
+const code = require("../Array-rearrangeAnArrayInMaxMin");
 
 describe("RearrangeAnArrayInMaxMin", () => {
     test("with order no v1", () => {
