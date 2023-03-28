@@ -1,4 +1,4 @@
-const code = require("../findMaxSumSubArray");
+const code = require("../Array-findMaxSumSubArray");
 
 describe("findMaxSumSubArray", () => {
     test("should work", () => {
