@@ -57,6 +57,40 @@ module.exports = class LinkedList {
         }
         return i;
     }
+    removeDuplicateV1() {
+        let cur = this.head.nextElement;
+        let prev = this.head;
+        while (cur != null) {
+            if (cur.data == prev.data) {
+                prev.nextElement = cur.nextElement;
+                prev = cur;
+                cur = cur.nextElement;
+            } else {
+                prev = cur;
+                cur = cur.nextElement;
+            }
+        }
+    }
+    removeDuplicateV2() {
+        let visited = new Set();
+        visited.add(this.head.data);
+        let cur = this.head.nextElement;
+        let prev = this.head;
+        while (cur != null) {
+            if (cur.data != prev.data && visited.has(cur.data)) {
+                prev.nextElement = cur.nextElement;
+            } else if (cur.data != prev.data && !visited.has(cur.data)) {
+                visited.add(cur.data);
+            } else if (cur.data == prev.data || !visited.has(cur.data)) {
+                visited.add(cur.data);
+                prev.nextElement = cur.nextElement;
+            } else {
+                visited.has(cur.data);
+            }
+            prev = cur;
+            cur = cur.nextElement;
+        }
+    }
 
     isEmpty() {
         return this.head == null;

@@ -1,16 +1,17 @@
 <script>
     //‘+’ have to be left as they are. Cells marked with a ‘-‘ need to be filled up 
-    let input = [['+', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
-    ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
-    ['-', '-', '-', '-', '-', '-', '-', '+', '+', '-'],
-    ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
-    ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
-    ['-', '+', '+', '+', '+', '-', '-', '-', '-', '-'],
-    ['-', '-', '-', '-', '-', '-', '+', '+', '+', '-'],
-    ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
-    ['+', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-    ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+']];
-    const words = ['chemistry', 'physics', 'history', 'maths', 'civics', 'geography']
+    let input = [
+        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['+', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+']];
+    const words = ['geography', 'history', 'chemistry', 'physics', 'maths', 'civics'];
     /*
     +++++++++-
     -++++++++-
@@ -46,126 +47,129 @@ backtrack_solver(crossword)
         unmake possibility p
     return false
         */
-    function isSafeAndPlace(crossword, words, i, j, wordIdx) {
-        if (words[wordIdx] == undefined || i > crossword.length || i < 0 || j > crossword.length || j < 0 || crossword[i][j] == "+") return false
 
+    function isSafeRight(crossword, words, i, j, wordIdx) {
         if (crossword[i][j] == "-" || crossword[i][j] == words[wordIdx][0]) {
-            crossword[i][j] = words[wordIdx][0];
-            let copiedCrossword = crossword;
-            let position = 0;
-            for (let k = 1; k < words[wordIdx].length; k++) {
-                if (crossword[i][j + k] != undefined && (crossword[i][j + k] == "-" || crossword[i][j + k] == words[wordIdx][position])) {
-                    crossword[i][j + k] = words[wordIdx][k];
-                    position++;
-                }
-            }
-            console.log("right", i, j, position, words[wordIdx].length);
-            if (position == words[wordIdx].length - 1) {
-                console.log(words[wordIdx]);
-                return true;
-            } else {
-                crossword = copiedCrossword;
+            if (j > 0 && crossword[i][j - 1] != '+') {
+                return false;
             }
 
-
-
-            position = 0;
-            for (let k = 1; k < words[wordIdx].length; k++) {
-                if (i + k < crossword.length &&
-                    (crossword[i + k][j] != undefined &&
-                        (crossword[i + k][j] == "-" || crossword[i + k][j] == words[wordIdx][position]))) {
-                    crossword[i + k][j] = words[wordIdx][k];
-                    position++;
-                }
+            if (j + words[wordIdx] - 1 >= crossword[0].length || ((j + words[wordIdx].length < crossword[0].length) && (crossword[i][j + words[wordIdx].length] != '+'))) {
+                return false;
             }
-            console.log("down", i, j, position, words[wordIdx].length);
-            if (position == words[wordIdx].length - 1) {
-                console.log(words[wordIdx]);
-                return true;
-            } else {
-                crossword = copiedCrossword;
-            }
-
-            position = 0;
-            for (let k = 1; k < words[wordIdx].length; k++) {
-                if (crossword[i][j - k] != undefined && (crossword[i][j - k] == "-" || crossword[i][j - k] == words[wordIdx][position])) {
-                    crossword[i][j - k] = words[wordIdx][k];
-                    position++;
-                }
-            }
-            console.log("left", i, j, position, words[wordIdx].length);
-            if (position == words[wordIdx].length - 1) {
-                console.log(words[wordIdx]);
-                return true;
-            } else {
-                crossword = copiedCrossword;
-            }
-
-            position = 0;
-            for (let k = 1; k < words[wordIdx].length; k++) {
-                if (i - k >= 0 &&
-                    (crossword[i - k][j] != undefined
-                        && (crossword[i - k][j] == "-"
-                            || crossword[i - k][j] == words[wordIdx][position]))) {
-                    crossword[i - k][j] = words[wordIdx][k];
-                    position++;
-                }
-            }
-            console.log("up", i, j, position, words[wordIdx].length);
-            if (position == words[wordIdx].length - 1) {
-                console.log(words[wordIdx]);
-                return true;
-            } else {
-                crossword = copiedCrossword;
-            }
-
-
-        }
-
-
-        return false
-    }
-    function isSafe(crossword, word, i, j) {
-        if (i > crossword.length || i < 0 || j > crossword.length || j < 0) return false
-        if (crossword[i][j] == "+") return false
-        if (crossword[i][j] != word[0]) return false
-
-        return true;
-
-    }
-    function solv(crossword, i, j, words, wordIdx) {
-
-        if (i > crossword.length) return
-        if (j > crossword[0].length) return
-
-
-        if (words.length == wordIdx) return
-
-        if (crossword[i][j] == "-") {
-            //checkRight
-            for (let k = j; k < crossword[0].length; k++) {
-                if (crossword[i][j] == "-" || words[wordIdx][k]) {
-
+            for (let jj = 0; jj < words[wordIdx].length; jj++) {
+                if (crossword[i][j + jj] == "-" || crossword[i][j + jj] == words[wordIdx][jj]) {
+                    continue;
                 } else {
-
+                    return false;
                 }
             }
+            return true
+        }
+        return false;
+    }
+    function placeRight(crossword, word, i, j, wordIdx) {
+        let placed = new Array();
 
+        for (let jj = 0; jj < crossword.length; jj++) {
+            let row = [];
+            for (let k = 0; k < crossword[jj].length; k++) {
+                row.push(false);
+            }
+            placed.push(row);
         }
 
-
-        if (j == crossword[0].length) {
-            i++;
+        for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            crossword[i][j + jj] = words[wordIdx][jj];
+            placed[i][j + jj] = true;
         }
-        j++;
+        console.log("placed", JSON.stringify(placed));
+        return placed;
+    }
+    function unPlaceRight(crossword, words, i, j, wordIdx, placed) {
+        //console.log("revb unplaced", JSON.stringify(placed));
+        for (let jj = j; jj <= words[wordIdx].length; jj++) {
+            if (placed[i][jj] == true) {
+                crossword[i][jj] = '-';
+                placed[i][jj] = false;
+            }
+        }
+        console.log("crossword", JSON.stringify(crossword));
+    }
+    function isSafeDown(crossword, words, i, j, wordIdx) {
+        if (crossword[i][j] == "-" || crossword[i][j] == words[wordIdx][0]) {
+            if (i + words[wordIdx].length > crossword[0].length) {
+                return false;
+            }
 
-        solv(crossword, i, j, words, wordIdx);
 
+            for (let ii = 0; ii < words[wordIdx].length; ii++) {
+                if (crossword[i + ii][j] == "-" || crossword[i + ii][j] == words[wordIdx][ii]) {
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+            return true
+        }
+        return false;
+    }
+    function placeDown(crossword, word, i, j, wordIdx) {
+        let placed = new Array();
+
+        for (let jj = 0; jj < crossword.length; jj++) {
+            let row = [];
+            for (let k = 0; k < crossword[jj].length; k++) {
+                row.push(false);
+            }
+            placed.push(row);
+        }
+
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            crossword[i + ii][j] = words[wordIdx][ii];
+            placed[i + ii][j] = true;
+        }
+        return placed;
+    }
+    function unPlaceDown(crossword, words, i, j, wordIdx, placed) {
+        for (let ii = i; ii < words[wordIdx].length; ii++) {
+            if (placed[ii][j] == true) {
+                crossword[ii][j] = '-';
+            }
+        }
+    }
+    function solv(crossword, words, wordIdx) {
+        //console.log(JSON.stringify(crossword));
+        crossword.map((cb, i) => console.log(crossword[i]));
+        if (wordIdx == words.length) {
+            console.log("solved");
+            crossword.map((cb, i) => console.log(crossword[i]));
+            return
+        }
+        for (let i = 0; i < crossword.length; i++) {
+            for (let j = 0; j < crossword[0].length; j++) {
+                if (crossword[i][j] == '-' || words[wordIdx][0] == crossword[i][j]) {
+
+                    if (isSafeRight(crossword, words, i, j, wordIdx)) {
+                        console.log('safe for ', words[wordIdx]);
+                        let placed = placeRight(crossword, words, i, j, wordIdx);
+                        solv(crossword, words, wordIdx + 1);
+                        unPlaceRight(crossword, words, i, j, wordIdx, placed)
+                    }
+                    // if (isSafeDown(crossword, words, i, j, wordIdx)) {
+                    //     console.log('safe for ', words[wordIdx]);
+                    //     let placed = placeDown(crossword, words, i, j, wordIdx);
+                    //     solv(crossword, words, wordIdx + 1);
+                    //     unPlaceDown(crossword, words, i, j, wordIdx, placed)
+                    // }
+
+                }
+
+            }
+        }
     }
 
-    console.log(input.map((ob, i) => console.log(i + " = " + ob.join(" "))));
-    solv(input, 0, 0, words, 0);
-    console.log(input.map((ob, i) => console.log(i + " = " + ob.join(" "))));
+    solv(input, words, 0);
 
 
 </script>
