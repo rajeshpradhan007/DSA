@@ -1,0 +1,278 @@
+<script>
+    //‘+’ have to be left as they are. Cells marked with a ‘-‘ need to be filled up 
+
+    let input = [
+        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['+', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+']];
+
+
+    const words = ['geography', 'cabbage', 'abducting', 'physics', 'fruit', 'snatch'];
+    /*
+    +++++++++-
+    -++++++++-
+    -------++-
+    -++++++++-
+    -++++++++-
+    -++++-----
+    ------+++-
+    -++++++++-
+    +---------
+    ++++++++++
+
+    
+    +++++++++A
+    S++++++++B
+    CABBAGE++D
+    I++++++++U
+    S++++++++C
+    Y++++FRUIT
+    HCTANS+++I
+    P++++++++N
+    +YHPARGOEG
+    ++++++++++
+
+    
+    
+    
+backtrack_solver(crossword)
+    if(no more cells are there to explore)
+        return true
+    for(all available possibilities)
+        try one possibility p
+        if(backtrack_solver(crossword with possibility p made) is true)
+            return true
+        unmake possibility p
+    return false
+        */
+    console.log(words.toString())
+
+    function isRightSafe(crossword, words, i, j, wordIdx) {
+        if (j + words[wordIdx].length > crossword[0].length) {
+            return false;
+        }
+        for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            if (crossword[i][j + jj] == "-" || crossword[i][j + jj] == words[wordIdx][jj]) {
+            } else {
+                return false;
+            }
+        }
+        if (j + words[wordIdx].length < crossword[0].length &&
+            crossword[i][j + words[wordIdx].length] == "-"
+        ) {
+            return false;
+        } else if (j - 1 >= 0 && crossword[i][j - 1] == "-") {
+            return false;
+        }
+        return true;
+    }
+    function isLeftSafe(crossword, words, i, j, wordIdx) {
+        if (j - words[wordIdx].length > 0) {
+            return false;
+        }
+        for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            if (crossword[i][j - jj] == "-" || crossword[i][j - jj] == words[wordIdx][jj]) {
+            } else {
+                return false;
+            }
+        }
+        if (j - words[wordIdx].length < crossword[0].length &&
+            crossword[i][j - words[wordIdx].length] == "-"
+        ) {
+            return false;
+        } else if (j + 1 >= 0 && crossword[i][j + 1] == "-") {
+            return false;
+        }
+        return true;
+    }
+    function isDownSafe(crossword, words, i, j, wordIdx) {
+        if (i + words[wordIdx].length > crossword[0].length) {
+            return false;
+        }
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i + ii][j] == "-" || crossword[i + ii][j] == words[wordIdx][ii]) {
+            } else {
+                return false;
+            }
+        }
+        if (i + words[wordIdx].length < crossword.length &&
+            crossword[i + words[wordIdx].length][j] == "-"
+        ) {
+            return false;
+        } else if (i - 1 >= 0 && crossword[i - 1][j] == "-") {
+            return false;
+        }
+        return true;
+    }
+    function isUpSafe(crossword, words, i, j, wordIdx) {
+        if (i - words[wordIdx].length < 0) {
+            return false;
+        }
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i - ii][j] == "-" || crossword[i - ii][j] == words[wordIdx][ii]) {
+            } else {
+                return false;
+            }
+        }
+        if (i - words[wordIdx].length < crossword.length &&
+            crossword[i - words[wordIdx].length][j] == "-"
+        ) {
+            return false;
+        } else if (i + 1 >= 0 && crossword[i + 1][j] == "-") {
+            return false;
+        }
+        return true;
+    }
+
+    function placeRight(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword[0].length).fill(false);
+
+        for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            if (crossword[i][j + jj] == "-") {
+                placed[j + jj] = true;
+            }
+            crossword[i][j + jj] = words[wordIdx][jj];
+
+        }
+        return placed;
+
+    }
+    function unPlaceRight(crossword, words, i, j, wordIdx, placed) {
+        for (let jj = j; jj <= words[wordIdx].length; jj++) {
+            if (placed[jj] == true) {
+                crossword[i][jj] = '-';
+                placed[jj] = false;
+            }
+        }
+    }
+    function placeLeft(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword[0].length).fill(false);
+
+        for (let jj = words[wordIdx].length; jj >= 0; jj--) {
+            if (crossword[i][j - jj] == "-") {
+                placed[j - jj] = true;
+                crossword[i][j - jj] = words[wordIdx][jj];
+            }
+
+
+        }
+        return placed;
+
+    }
+    function unPlaceLeft(crossword, words, i, j, wordIdx, placed) {
+        for (let jj = words[wordIdx].length; jj >= 0; jj--) {
+            if (placed[j - jj] == true) {
+                crossword[i][j - jj] = '-';
+                placed[j - jj] = false;
+            }
+        }
+    }
+    function placeDown(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword.length).fill(false);
+
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i + ii][j] == "-") {
+                placed[i + ii] = true;
+            }
+            crossword[i + ii][j] = words[wordIdx][ii];
+        }
+        return placed;
+    }
+    function unPlaceDown(crossword, words, i, j, wordIdx, placed) {
+        for (let ii = i; ii <= words[wordIdx].length; ii++) {
+            if (placed[ii] == true) {
+                crossword[ii][j] = '-';
+                placed[ii] = false
+            }
+        }
+    }
+    function placeUp(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword.length).fill(false);
+
+        //for (let ii = words[wordIdx].length; ii >= 0; ii--) {
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i - ii][j] == "-") {
+                placed[i - ii] = true;
+            }
+            crossword[i - ii][j] = words[wordIdx][ii];
+        }
+        return placed;
+    }
+    function unPlaceUp(crossword, words, i, j, wordIdx, placed) {
+        for (let ii = words[wordIdx].length; ii >= 0; ii--) {
+            if (placed[i - ii] == true) {
+                crossword[i - ii][j] = '-';
+                placed[i - ii] = false
+            }
+        }
+    }
+
+    function solv(crossword, words, wordIdx) {
+        if (wordIdx == words.length) {
+            console.log("solved");
+            print(crossword);
+            return
+        }
+        for (let i = 0; i < crossword.length; i++) {
+            for (let j = 0; j < crossword[0].length; j++) {
+                if (crossword[i][j] == '-' || words[wordIdx][0] == crossword[i][j]) {
+                    if (isRightSafe(crossword, words, i, j, wordIdx)) {
+                        let placed = placeRight(crossword, words, i, j, wordIdx);
+                        solv(crossword, words, wordIdx + 1);
+                        unPlaceRight(crossword, words, i, j, wordIdx, placed)
+                    }
+                    if (isDownSafe(crossword, words, i, j, wordIdx)) {
+                        let placed = placeDown(crossword, words, i, j, wordIdx);
+                        solv(crossword, words, wordIdx + 1);
+                        unPlaceDown(crossword, words, i, j, wordIdx, placed)
+                    }
+                    if (isLeftSafe(crossword, words, i, j, wordIdx)) {
+                        let placed = placeLeft(crossword, words, i, j, wordIdx);
+                        solv(crossword, words, wordIdx + 1);
+                        unPlaceLeft(crossword, words, i, j, wordIdx, placed)
+                    }
+                    if (isUpSafe(crossword, words, i, j, wordIdx)) {
+                        let placed = placeUp(crossword, words, i, j, wordIdx);
+                        solv(crossword, words, wordIdx + 1);
+                        unPlaceUp(crossword, words, i, j, wordIdx, placed)
+                    }
+                }
+            }
+        }
+    }
+
+    function print(crossword) {
+        console.log("====================");
+        let json = JSON.stringify(crossword);
+        let converted = JSON.parse(json);
+        converted.map((cb, i) => console.log(converted[i]));
+    }
+
+    print(input)
+    solv(input, words, 0);
+
+    //console.log(isRightSafe(input, 2, 0, words, 5));
+    //console.log(isLeftSafe(input, 6, 5, words, 5));
+    //console.log(isDownSafe(input, 0, 9, words, 1));
+    //console.log(isUpSafe(input, 7, 0, words, 0));
+
+    // console.log(isLeftSafe(input, 6, 5, words, 5));
+    // let placed = placeLeft(input, words, 6, 5, 5);
+    // print(input);
+    // unPlaceLeft(input, words, 6, 5, 5, placed);
+    // print(input);
+
+    // console.log(isUpSafe(input, 7, 0, words, 3));
+    // let placed = placeUp(input, words, 7, 0, 3);
+    // print(input);
+    // unPlaceUp(input, words, 7, 0, 3, placed);
+    // print(input);
+
+</script>

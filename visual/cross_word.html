@@ -1,0 +1,389 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+<style>
+    .grid {
+        height: 40px;
+        width: 40px;
+        border: 1px solid black;
+        border-top-color: black;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-left-color: black;
+        border-left-style: solid;
+        border-left-width: 1px;
+        text-align: center;
+        line-height: 40px;
+    }
+
+    .grey {
+        background: grey;
+    }
+
+    .white {
+        background: white;
+    }
+</style>
+<div style="display: flex;justify-content: space-around;">
+    <div id="ss">
+
+    </div>
+    <div id="list">
+
+    </div>
+    <div>
+        <button id="btn_backtrack" type="button" class="btn btn-lg">BACKTRACK</button>
+        <button id="btn_nosolution" type="button" class="btn btn-lg">NO SOLUTION</button>
+    </div>
+</div>
+
+<script>
+    //‘+’ have to be left as they are. Cells marked with a ‘-‘ need to be filled up 
+
+    let input = [
+        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '-', '-', '-', '-', '-', '-', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '-', '-', '-', '-', '-'],
+        ['-', '-', '-', '-', '-', '-', '+', '+', '+', '-'],
+        ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
+        ['+', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+        ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+']];
+
+
+    const words = ['geography', 'cabbage', 'abducting', 'physics', 'fruit', 'snatch'];
+    /*
+    +++++++++-
+    -++++++++-
+    -------++-
+    -++++++++-
+    -++++++++-
+    -++++-----
+    ------+++-
+    -++++++++-
+    +---------
+    ++++++++++
+
+    
+    +++++++++A
+    S++++++++B
+    CABBAGE++D
+    I++++++++U
+    S++++++++C
+    Y++++FRUIT
+    HCTANS+++I
+    P++++++++N
+    +YHPARGOEG
+    ++++++++++
+
+    
+    
+    
+backtrack_solver(crossword)
+    if(no more cells are there to explore)
+        return true
+    for(all available possibilities)
+        try one possibility p
+        if(backtrack_solver(crossword with possibility p made) is true)
+            return true
+        unmake possibility p
+    return false
+        */
+    console.log(words.toString())
+
+    function isRightSafe(crossword, words, i, j, wordIdx) {
+        if (j + words[wordIdx].length > crossword[0].length) {
+            return false;
+        }
+        for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            if (crossword[i][j + jj] == "-" || crossword[i][j + jj] == words[wordIdx][jj]) {
+            } else {
+                return false;
+            }
+        }
+        if (j + words[wordIdx].length < crossword[0].length &&
+            crossword[i][j + words[wordIdx].length] == "-"
+        ) {
+            return false;
+        } else if (j - 1 >= 0 && crossword[i][j - 1] == "-") {
+            return false;
+        }
+        return true;
+    }
+    function isLeftSafe(crossword, words, i, j, wordIdx) {
+        if (j - words[wordIdx].length > 0) {
+            return false;
+        }
+        for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            if (crossword[i][j - jj] == "-" || crossword[i][j - jj] == words[wordIdx][jj]) {
+            } else {
+                return false;
+            }
+        }
+        if (j - words[wordIdx].length < crossword[0].length &&
+            crossword[i][j - words[wordIdx].length] == "-"
+        ) {
+            return false;
+        } else if (j + 1 >= 0 && crossword[i][j + 1] == "-") {
+            return false;
+        }
+        return true;
+    }
+    function isDownSafe(crossword, words, i, j, wordIdx) {
+        if (i + words[wordIdx].length > crossword[0].length) {
+            return false;
+        }
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i + ii][j] == "-" || crossword[i + ii][j] == words[wordIdx][ii]) {
+            } else {
+                return false;
+            }
+        }
+        if (i + words[wordIdx].length < crossword.length &&
+            crossword[i + words[wordIdx].length][j] == "-"
+        ) {
+            return false;
+        } else if (i - 1 >= 0 && crossword[i - 1][j] == "-") {
+            return false;
+        }
+        return true;
+    }
+    function isUpSafe(crossword, words, i, j, wordIdx) {
+        if (i - words[wordIdx].length < 0) {
+            return false;
+        }
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i - ii][j] == "-" || crossword[i - ii][j] == words[wordIdx][ii]) {
+            } else {
+                return false;
+            }
+        }
+        if (i - words[wordIdx].length < crossword.length &&
+            crossword[i - words[wordIdx].length][j] == "-"
+        ) {
+            return false;
+        } else if (i + 1 >= 0 && crossword[i + 1][j] == "-") {
+            return false;
+        }
+        return true;
+    }
+
+    async function placeRight(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword[0].length).fill(false);
+
+        for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            if (crossword[i][j + jj] == "-") {
+                placed[j + jj] = true;
+                await changeValue(i, j + jj, words[wordIdx][jj]);
+            }
+            crossword[i][j + jj] = words[wordIdx][jj];
+
+        }
+        return placed;
+
+    }
+    async function unPlaceRight(crossword, words, i, j, wordIdx, placed) {
+        for (let jj = j; jj <= words[wordIdx].length; jj++) {
+            if (placed[jj] == true) {
+                crossword[i][jj] = '-';
+                placed[jj] = false;
+                await removeValue(i, jj, words[wordIdx][jj]);
+            }
+        }
+        $('#btn_backtrack').addClass("btn-info");
+        $('#btn_backtrack').removeClass("btn-outline-info");
+        await highLightBox();
+        $('#btn_backtrack').removeClass("btn-info");
+        $('#btn_backtrack').addClass("btn-outline-info");
+    }
+    async function placeLeft(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword[0].length).fill(false);
+
+        for (let jj = words[wordIdx].length - 1; jj >= 0; jj--) {
+            if (crossword[i][j - jj] == "-") {
+                placed[j - jj] = true;
+                await changeValue(i, j - jj, words[wordIdx][jj]);
+            }
+            crossword[i][j - jj] = words[wordIdx][jj];
+        }
+        return placed;
+
+    }
+    async function unPlaceLeft(crossword, words, i, j, wordIdx, placed) {
+        for (let jj = words[wordIdx].length; jj >= 0; jj--) {
+            if (placed[j - jj] == true) {
+                crossword[i][j - jj] = '-';
+                placed[j - jj] = false;
+                await removeValue(i, j - jj, words[wordIdx][jj]);
+            }
+        }
+    }
+    async function placeDown(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword.length).fill(false);
+
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i + ii][j] == "-") {
+                placed[i + ii] = true;
+                await changeValue(i + ii, j, words[wordIdx][ii]);
+            }
+            crossword[i + ii][j] = words[wordIdx][ii];
+        }
+        return placed;
+    }
+    async function unPlaceDown(crossword, words, i, j, wordIdx, placed) {
+        for (let ii = i; ii <= words[wordIdx].length; ii++) {
+            if (placed[ii] == true) {
+                crossword[ii][j] = '-';
+                placed[ii] = false
+                await removeValue(ii, j, words[wordIdx][ii]);
+            }
+        }
+    }
+    async function placeUp(crossword, word, i, j, wordIdx) {
+        let placed = new Array(crossword.length).fill(false);
+
+        //for (let ii = words[wordIdx].length; ii >= 0; ii--) {
+        for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i - ii][j] == "-") {
+                placed[i - ii] = true;
+                await changeValue(i - ii, j, words[wordIdx][ii]);
+            }
+            crossword[i - ii][j] = words[wordIdx][ii];
+        }
+        return placed;
+    }
+    async function unPlaceUp(crossword, words, i, j, wordIdx, placed) {
+        for (let ii = words[wordIdx].length; ii >= 0; ii--) {
+            if (placed[i - ii] == true) {
+                crossword[i - ii][j] = '-';
+                placed[i - ii] = false
+                await removeValue(i - ii, j, words[wordIdx][ii]);
+            }
+        }
+    }
+
+    async function solv(crossword, words, wordIdx) {
+        if (wordIdx == words.length) {
+            console.log("solved");
+            print(crossword);
+            return true;
+
+        }
+        for (let i = 0; i < crossword.length; i++) {
+            for (let j = 0; j < crossword[0].length; j++) {
+                if (crossword[i][j] == '-' || words[wordIdx][0] == crossword[i][j]) {
+                    //await highLightBox(i, j, words[wordIdx]);
+                    document.getElementById("word" + wordIdx).style.color = "red"
+                    if (isRightSafe(crossword, words, i, j, wordIdx)) {
+                        //word1
+
+                        let placed = await placeRight(crossword, words, i, j, wordIdx);
+                        if (await solv(crossword, words, wordIdx + 1)) {
+                            return true;
+                        }
+                        await unPlaceRight(crossword, words, i, j, wordIdx, placed)
+                    }
+                    if (isDownSafe(crossword, words, i, j, wordIdx)) {
+                        let placed = await placeDown(crossword, words, i, j, wordIdx);
+                        if (await solv(crossword, words, wordIdx + 1)) {
+                            return true;
+                        }
+                        await unPlaceDown(crossword, words, i, j, wordIdx, placed)
+                    }
+                    if (isLeftSafe(crossword, words, i, j, wordIdx)) {
+                        let placed = await placeLeft(crossword, words, i, j, wordIdx);
+                        if (await solv(crossword, words, wordIdx + 1)) {
+                            return true;
+                        }
+                        await unPlaceLeft(crossword, words, i, j, wordIdx, placed)
+                    }
+                    if (isUpSafe(crossword, words, i, j, wordIdx)) {
+                        let placed = await placeUp(crossword, words, i, j, wordIdx);
+                        if (await solv(crossword, words, wordIdx + 1)) {
+                            return true;
+                        }
+                        await unPlaceUp(crossword, words, i, j, wordIdx, placed)
+                    }
+                    document.getElementById("word" + wordIdx).style.color = "black"
+                }
+            }
+        }
+        $('#btn_nosolution').addClass("btn-warning");
+        $('#btn_nosolution').removeClass("btn-outline-warning");
+        await highLightBox();
+        $('#btn_nosolution').removeClass("btn-warning");
+        $('#btn_nosolution').addClass("btn-outline-warning");
+        return false
+    }
+
+    function print(crossword) {
+        console.log("====================");
+        let json = JSON.stringify(crossword);
+        let converted = JSON.parse(json);
+        converted.map((cb, i) => console.log(converted[i]));
+    }
+    async function highLightBox() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                //document.getElementById(i + "" + j).style.background = "orange";
+                resolve("done");
+            }, 400);
+        });
+    }
+    async function changeValue(i, j, k) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                document.getElementById(i + "" + j).style.color = "red"
+                document.getElementById(i + "" + j).innerHTML = k;
+                //console.log("closed");
+                resolve("done");
+            }, 10, i, j, k);
+        });
+    }
+    async function removeValue(i, j, k) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                document.getElementById(i + "" + j).style.color = "blue"
+                document.getElementById(i + "" + j).innerHTML = "*";
+                //console.log("closed");
+                resolve("done");
+            }, 10, i, j, k);
+        });
+    }
+    print(input)
+    let tmpHtml = "";
+    let ii = 0;
+    for (let el of input) {
+        tmpHtml += `<div style="display:flex;">`;
+        let jj = 0;
+        for (let each of el) {
+            let boxColor = "grey";
+            if (each == "-") {
+                boxColor = "white";
+            }
+            tmpHtml += `<div class="grid ${boxColor}" id="${ii + "" + jj}">${each}</div>`;
+            jj++;
+        }
+        tmpHtml += `</div>`;
+        ii++;
+    }
+    document.getElementById("ss").innerHTML = tmpHtml;
+    tmpHtml = "<ul>";
+    let qq = 0;
+    for (let el of words) {
+        tmpHtml += `<li id="word${qq}">${el}</li>`;
+        qq++;
+    }
+    tmpHtml += "</ul>";
+    document.getElementById("list").innerHTML = tmpHtml;
+    solv(input, words, 0);
+
+
+</script>
