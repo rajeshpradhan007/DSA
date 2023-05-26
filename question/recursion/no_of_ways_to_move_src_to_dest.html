@@ -1,0 +1,41 @@
+<script>
+    let height = 3;
+    let width = 4;
+
+    let matrix = []
+
+    for (let i = 0; i < height; i++) {
+        let tmp = new Array(width).fill(0);
+        matrix.push(tmp);
+    }
+
+    function isSafe(matrix, i, j, visited) {
+        if (i < 0 || i >= matrix.length || j < 0 || j >= matrix[0].length || visited.has(i + "-" + j)) {
+            return false;
+        }
+        // console.log(i, j);
+        return true;
+    }
+    console.log(matrix);
+    let visited = new Set();
+    dfs(matrix, 0, 0, visited, 2, 3, '');
+    function dfs(matrix, i, j, visited, x, y, psf) {
+        if (!isSafe(matrix, i, j, visited)) {
+            return
+        }
+
+        if (x == i && y == j) {
+            console.log("found", psf);
+            return
+        }
+        // console.log(psf);
+        visited.add(i + "-" + j);
+        dfs(matrix, i, j + 1, visited, x, y, psf + "R");
+        dfs(matrix, i + 1, j, visited, x, y, psf + "D");
+        //dfs(matrix, i, j - 1, visited, x, y, psf + "L");
+        //dfs(matrix, i - 1, j, visited, x, y, psf + "U");
+        visited.delete(i + "-" + j);
+    }
+
+
+</script>

@@ -1,5 +1,6 @@
 <script>
     //‘+’ have to be left as they are. Cells marked with a ‘-‘ need to be filled up 
+
     let input = [
         ['+', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
         ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
@@ -11,6 +12,8 @@
         ['-', '+', '+', '+', '+', '+', '+', '+', '+', '-'],
         ['+', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
         ['+', '+', '+', '+', '+', '+', '+', '+', '+', '+']];
+
+
     const words = ['geography', 'history', 'chemistry', 'physics', 'maths', 'civics'];
     /*
     +++++++++-
@@ -47,103 +50,111 @@ backtrack_solver(crossword)
         unmake possibility p
     return false
         */
+    console.log(words.toString())
+    function isSafeRight(crossword, words, row, col, wordIdx) {
 
-    function isSafeRight(crossword, words, i, j, wordIdx) {
-        if (crossword[i][j] == "-" || crossword[i][j] == words[wordIdx][0]) {
-            if (j > 0 && crossword[i][j - 1] != '+') {
-                return false;
-            }
+        const wordLength = words[wordIdx].length;
+        const matrixCols = crossword[0].length;
 
-            if (j + words[wordIdx] - 1 >= crossword[0].length || ((j + words[wordIdx].length < crossword[0].length) && (crossword[i][j + words[wordIdx].length] != '+'))) {
-                return false;
-            }
-            for (let jj = 0; jj < words[wordIdx].length; jj++) {
-                if (crossword[i][j + jj] == "-" || crossword[i][j + jj] == words[wordIdx][jj]) {
-                    continue;
-                } else {
-                    return false;
-                }
-            }
-            return true
+        // Check if word exceeds matrix boundary
+        if (col + wordLength > matrixCols) {
+            return false;
         }
-        return false;
+
+        //col - 1 >= 0 &&  
+
+        if ((col >= 0 && col - 1 >= 0 && (crossword[row][col - 1] == "-" || crossword[row][col - 1] != "+")) || (col + wordLength + 1 > crossword.length && crossword[row][col + wordLength + 1] == "-") == true) {
+            return false
+        }
+
+        // Check if there are any conflicting letters
+        for (let i = 0; i < wordLength; i++) {
+            const matrixCell = crossword[row][col + i];
+            if (matrixCell == '-' || matrixCell === words[wordIdx][i]) {
+
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
     function placeRight(crossword, word, i, j, wordIdx) {
-        let placed = new Array();
-
-        for (let jj = 0; jj < crossword.length; jj++) {
-            let row = [];
-            for (let k = 0; k < crossword[jj].length; k++) {
-                row.push(false);
-            }
-            placed.push(row);
-        }
+        let placed = new Array(crossword[0].length).fill(false);
 
         for (let jj = 0; jj < words[wordIdx].length; jj++) {
+            if (crossword[i][j + jj] == "-") {
+                placed[j + jj] = true;
+            }
             crossword[i][j + jj] = words[wordIdx][jj];
-            placed[i][j + jj] = true;
+
         }
-        console.log("placed", JSON.stringify(placed));
         return placed;
+
     }
     function unPlaceRight(crossword, words, i, j, wordIdx, placed) {
-        //console.log("revb unplaced", JSON.stringify(placed));
         for (let jj = j; jj <= words[wordIdx].length; jj++) {
-            if (placed[i][jj] == true) {
+            if (placed[jj] == true) {
                 crossword[i][jj] = '-';
-                placed[i][jj] = false;
+                placed[jj] = false;
             }
         }
-        console.log("crossword", JSON.stringify(crossword));
     }
-    function isSafeDown(crossword, words, i, j, wordIdx) {
-        if (crossword[i][j] == "-" || crossword[i][j] == words[wordIdx][0]) {
-            if (i + words[wordIdx].length > crossword[0].length) {
+    function isSafeDown(crossword, words, row, col, wordIdx) {
+
+        const wordLength = words[wordIdx].length;
+        const matrixRows = crossword.length;
+
+        // Check if word exceeds matrix boundary
+        if (row + wordLength > matrixRows) {
+            return false;
+        }
+
+
+        // Check if there are any conflicting letters
+        for (let i = 0; i < wordLength; i++) {
+            const matrixCell = crossword[row + i][col];
+            if (matrixCell == '-' || matrixCell === words[wordIdx][i]) {
+
+            } else {
                 return false;
             }
-
-
-            for (let ii = 0; ii < words[wordIdx].length; ii++) {
-                if (crossword[i + ii][j] == "-" || crossword[i + ii][j] == words[wordIdx][ii]) {
-                    continue;
-                } else {
-                    return false;
-                }
-            }
-            return true
         }
-        return false;
+        if ((row >= 0 && row - 1 >= 0 && (crossword[row - 1][col] == "-" || crossword[row - 1][col] != "+")) || (row + wordLength + 1 > crossword.length && crossword[row + wordLength + 1][col] == "-") == true) {
+            return false
+        }
+
+        return true;
     }
     function placeDown(crossword, word, i, j, wordIdx) {
-        let placed = new Array();
-
-        for (let jj = 0; jj < crossword.length; jj++) {
-            let row = [];
-            for (let k = 0; k < crossword[jj].length; k++) {
-                row.push(false);
-            }
-            placed.push(row);
-        }
+        let placed = new Array(crossword.length).fill(false);
 
         for (let ii = 0; ii < words[wordIdx].length; ii++) {
+            if (crossword[i + ii][j] == "-") {
+                placed[i + ii] = true;
+            }
             crossword[i + ii][j] = words[wordIdx][ii];
-            placed[i + ii][j] = true;
         }
         return placed;
     }
     function unPlaceDown(crossword, words, i, j, wordIdx, placed) {
-        for (let ii = i; ii < words[wordIdx].length; ii++) {
-            if (placed[ii][j] == true) {
+        for (let ii = i; ii <= words[wordIdx].length; ii++) {
+            if (placed[ii] == true) {
                 crossword[ii][j] = '-';
+                placed[ii] = false
             }
         }
     }
+    function print(crossword) {
+        let json = JSON.stringify(crossword);
+        console.log("------------------");
+        let converted = JSON.parse(json);
+        converted.map((cb, i) => console.log(converted[i]));
+    }
     function solv(crossword, words, wordIdx) {
-        //console.log(JSON.stringify(crossword));
-        crossword.map((cb, i) => console.log(crossword[i]));
         if (wordIdx == words.length) {
             console.log("solved");
-            crossword.map((cb, i) => console.log(crossword[i]));
+            print(crossword);
             return
         }
         for (let i = 0; i < crossword.length; i++) {
@@ -151,20 +162,17 @@ backtrack_solver(crossword)
                 if (crossword[i][j] == '-' || words[wordIdx][0] == crossword[i][j]) {
 
                     if (isSafeRight(crossword, words, i, j, wordIdx)) {
-                        console.log('safe for ', words[wordIdx]);
                         let placed = placeRight(crossword, words, i, j, wordIdx);
                         solv(crossword, words, wordIdx + 1);
                         unPlaceRight(crossword, words, i, j, wordIdx, placed)
                     }
-                    // if (isSafeDown(crossword, words, i, j, wordIdx)) {
-                    //     console.log('safe for ', words[wordIdx]);
-                    //     let placed = placeDown(crossword, words, i, j, wordIdx);
-                    //     solv(crossword, words, wordIdx + 1);
-                    //     unPlaceDown(crossword, words, i, j, wordIdx, placed)
-                    // }
+                    if (isSafeDown(crossword, words, i, j, wordIdx)) {
+                        let placed = placeDown(crossword, words, i, j, wordIdx);
+                        solv(crossword, words, wordIdx + 1);
+                        unPlaceDown(crossword, words, i, j, wordIdx, placed)
+                    }
 
                 }
-
             }
         }
     }
