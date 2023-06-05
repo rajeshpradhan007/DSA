@@ -1,0 +1,195 @@
+<style>
+    .containerr {
+        display: flex;
+
+    }
+
+    .containerr .grid {
+        aspect-ratio: 1;
+    }
+
+    .grid {
+        background-color: #00abff;
+        height: 10px;
+        width: 10px;
+        box-sizing: border-box;
+    }
+
+    .wall-left {
+        border-left: 1px solid black;
+    }
+
+    .wall-down {
+        border-bottom: 1px solid black;
+    }
+
+    .wall-right {
+        border-right: 1px solid black;
+    }
+
+    .wall-top {
+        border-top: 1px solid black;
+    }
+
+    .grey {
+        background: grey;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <div id="gridMain"></div>
+    </div>
+    <div class="col-md-6">
+        <button onclick="generateMaze(grid, 0, 0)">Start</button>
+    </div>
+</div>
+<script type="text/javascript">
+    class Node {
+        constructor(i, j) {
+            this.i = i;
+            this.j = j;
+            this.wall = [true, true, true, true];
+            this.visited = false;
+
+        }
+    }
+    let grid = [];
+    function generateGrid() {
+        let size = 80;
+        for (let i = 0; i < size; i++) {
+            let tmp = [];
+            for (let j = 0; j < size; j++) {
+                tmp.push(new Node(i, j));
+            }
+            grid.push(tmp);
+        }
+    }
+    function printGrid() {
+        let tmpHtml = "";
+        let ii = 0;
+        for (let el of grid) {
+            tmpHtml += `<div class="containerr">`;
+            let jj = 0;
+            for (let each of el) {
+                let leftWall = "";
+                if (each.wall[0]) {
+                    leftWall = "wall-left";
+                }
+                let downWall = "";
+                if (each.wall[1]) {
+                    downWall = "wall-down";
+                }
+                let rightWall = "";
+                if (each.wall[2]) {
+                    rightWall = "wall-right";
+                }
+                let topWall = "";
+                if (each.wall[3]) {
+                    topWall = "wall-top";
+                }
+
+                tmpHtml += `<div class="grid ${leftWall} ${downWall} ${rightWall} ${topWall} " id="${ii + "" + jj}"></div > `;
+                jj++;
+            }
+            tmpHtml += `</div >`;
+            ii++;
+        }
+        document.getElementById("gridMain").innerHTML = tmpHtml;
+    }
+    async function generateMaze(grid, startI, startJ) {
+        let seen = new Set();
+        await dfs(grid, startI, startJ, seen);
+
+    }
+    async function dfs(grid, i, j, seen) {
+        if (!isValid(grid, i, j, seen)) return false;
+        seen.add(i + "-" + j);
+        grid[i][j].visited = true;
+
+        await changeValue(i, j);
+        let validPath = [];
+        if (isValid(grid, i, j + 1, seen)) validPath.push([i, j + 1]);
+        if (isValid(grid, i + 1, j, seen)) validPath.push([i + 1, j]);
+        if (isValid(grid, i, j - 1, seen)) validPath.push([i, j - 1]);
+        if (isValid(grid, i - 1, j, seen)) validPath.push([i - 1, j]);
+
+        while (validPath.length) {
+
+            var selectIdx = Math.floor(Math.random() * validPath.length);
+            var selectedPath = validPath[selectIdx];
+            //if (isValid(grid, selectedPath[0], selectedPath[1], seen)) {
+            if (!seen.has(selectedPath[0] + "-" + selectedPath[1])) {
+                await removeWall([i, j], selectedPath, seen, grid);
+            }
+            validPath.splice(selectIdx, 1);
+            await dfs(grid, selectedPath[0], selectedPath[1], seen);
+            //}
+        }
+
+    }
+    function isValid(grid, i, j, seen) {
+        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || seen.has(i + "-" + j)) {
+            return false;
+        }
+        return true;
+    }
+    async function changeValue(i, j) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                document.getElementById(i + "" + j).style.background = "orange"
+                resolve("done");
+            }, 50, i, j);
+        });
+    }
+    async function changeValue2(i, j) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                document.getElementById(i + "" + j).style.background = "red"
+                resolve("done");
+            }, 200, i, j);
+        });
+    }
+    async function removeWall(src, dest, seen, grid) {
+        //0,0 => 0,1
+        //0,0 => 1,0
+        //0,0 => 0,-1
+        //0,0 => -1,0
+
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+
+                if (Math.abs(src[1] - dest[1]) == 1) {
+                    //right left
+                    if (src[1] - dest[1] == 1) {
+                        //right
+                        grid[dest[0]][dest[1]].wall[2] = false;
+                        grid[src[0]][src[1]].wall[0] = false;
+                    } else {
+                        //left
+                        grid[dest[0]][dest[1]].wall[0] = false;
+                        grid[src[0]][src[1]].wall[2] = false;
+                    }
+                } else {
+                    //up down
+                    if (dest[0] - src[0] == 1) {
+                        //down
+                        grid[dest[0]][dest[1]].wall[3] = false;
+                        grid[src[0]][src[1]].wall[1] = false;
+                    } else {
+                        //up
+                        grid[dest[0]][dest[1]].wall[1] = false;
+                        grid[src[0]][src[1]].wall[3] = false;
+                    }
+                }
+                //}
+                printGrid();
+                //document.getElementById(src[0] + "" + src[1]).style.background = "red"
+                resolve("done");
+            }, 100, src, dest, grid, seen);
+        });
+    }
+    generateGrid();
+    printGrid();
+    //generateMaze(grid, 0, 0);
+
+</script>
