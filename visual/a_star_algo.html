@@ -1,0 +1,207 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<style>
+    .containerr {
+        display: flex;
+
+    }
+
+    .containerr .grid {
+        aspect-ratio: 1;
+    }
+
+    .grid {
+        background-color: #00abff;
+        height: 80px;
+        width: 120px;
+        padding: 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+
+    .grey {
+        background: grey;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <div id="gridMain"></div>
+    </div>
+    <div class="col-md-6"></div>
+</div>
+<script>
+    var grid = [
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+        [0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+    ];
+    class Node {
+        constructor(i, j, parent = null, isPath = false, h) {
+            //f(n) = g(n) + h(n)
+            this.g = Infinity
+            this.h = h;
+            this.f = Infinity;
+            this.parent = parent;
+            this.position = i + "-" + j;
+            this.isPath = isPath;
+            this.i = i;
+            this.j = j;
+        }
+    }
+
+
+
+
+    pathFinder(grid, 0, 0, grid.length - 1, grid[0].length - 1, grid.length + grid[0].length)
+
+
+    async function pathFinder(grid, startI, startJ, endI, endJ, h) {
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[0].length; j++) {
+                let hDistance = Infinity;
+                if (grid[i][j] == 1) {
+                    hDistance = calculateHValue(i, j, [endI, endJ])
+                }
+                grid[i][j] = new Node(i, j, null, (grid[i][j] === 1) ? false : true, hDistance);
+            }
+        }
+
+
+        let closedList = new Array(grid.length);
+        for (let i = 0; i < grid.length; i++) {
+            closedList[i] = new Array(grid[0].length).fill(false);
+        }
+        grid[startI][startJ].g = 0;
+        grid[startI][startJ].f = grid[startI][startJ].h;
+
+
+        let openSet = [grid[0][0]];
+        let cameFrom = [];
+        print(grid);
+
+        while (openSet.length > 0) {
+
+            let leastIdx = 0;
+            let leastF = openSet[0];
+            for (let q = 0; q < openSet.length; q++) {
+                if (openSet[q].f < leastF.f) {
+                    leastF = openSet[q];
+                    leastIdx = q;
+                }
+            }
+            closedList[leastF.i][leastF.j] = true;
+            let i = leastF.i;
+            let j = leastF.j;
+            openSet.splice(leastIdx, 1);
+            let gNew, hNew, fNew;
+            for (pos of [[0, 1], [1, 1], [1, 0], [1, -1], [-1, 0], [-1, -1], [0, -1], [-1, 1]]) {
+                if (isValid(i + pos[0], j + pos[1], grid.length, grid[0].length)) {
+                    let neighbor = grid[i + pos[0]][j + pos[1]];
+                    //console.log(i, j);
+                    await updateNode(i, j);
+                    if (neighbor.position == endI + "-" + endJ) {
+                        console.log("path found");
+                        grid[i + pos[0]][j + pos[1]].parent = i + "-" + j;
+
+                        printPath(neighbor, grid);
+                        return;
+                    } else if (closedList[i + pos[0]][j + pos[1]] == false && grid[i + pos[0]][j + pos[1]].isPath) {
+                        gNew = grid[i][j].g + 1;
+                        hNew = calculateHValue(i + pos[0], j + pos[1], [endI, endJ]);
+                        fNew = parseFloat(gNew) + parseFloat(hNew);
+                        fNew = fNew.toFixed(3);
+                        if (grid[i + pos[0]][j + pos[1]].f == Infinity
+                            || grid[i + pos[0]][j + pos[1]].f > fNew) {
+
+                            openSet.push(grid[i + pos[0]][j + pos[1]]);
+                            // Update the details of this cell
+                            grid[i + pos[0]][j + pos[1]].f = fNew;
+                            grid[i + pos[0]][j + pos[1]].g = gNew;
+                            grid[i + pos[0]][j + pos[1]].h = hNew;
+                            grid[i + pos[0]][j + pos[1]].parent = i + "-" + j;
+                        }
+                        updateNeighborNode(i + pos[0], j + pos[1]);
+                    }
+                }
+            }
+        }
+        console.log("finish", closedList);
+        // print(grid);
+
+    }
+    function isValid(row, col, ROW, COL) {
+        // Returns true if row number and column number
+        // is in range
+        return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL);
+    }
+    function calculateHValue(row, col, dest) {
+        // Return using the distance formula
+        return (Math.sqrt((row - dest[0]) * (row - dest[0]) + (col - dest[1]) * (col - dest[1]))).toFixed(3);
+    }
+    async function printPath(node, grid) {
+        let cur = node;
+        while (cur.parent) {
+            let split = cur.parent.split("-");
+            cur = grid[split[0]][split[1]];
+            await changeValue(split[0], split[1]);
+        }
+    }
+    async function changeValue(i, j) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                document.getElementById(i + "" + j).style.background = "orange"
+                resolve("done");
+            }, 100, i, j);
+        });
+    }
+    async function updateNode(i, j) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                let each = grid[i][j]
+                document.getElementById(i + "" + j).innerHTML = `G-${each.g}<br/>H-${each.h}<br/>F-${each.f}`;
+                document.getElementById(i + "" + j).style.background = "#91c3db";
+                resolve("done");
+            }, 100, i, j);
+        });
+    }
+    async function updateNeighborNode(i, j) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                let each = grid[i][j]
+                document.getElementById(i + "" + j).innerHTML = `G-${each.g}<br/>H-${each.h}<br/>F-${each.f}`;
+                document.getElementById(i + "" + j).style.background = "#4a88a6";
+                resolve("done");
+            }, 100, i, j);
+        });
+    }
+
+    function print(grid) {
+        let tmpHtml = "";
+        let ii = 0;
+        for (let el of grid) {
+            tmpHtml += `<div class="containerr">`;
+            let jj = 0;
+            for (let each of el) {
+                let boxColor = "white";
+                if (each.isPath == false) {
+                    boxColor = "grey";
+                }
+                tmpHtml += `<div class="grid ${boxColor}" id="${ii + "" + jj}">G-${each.g}<br/>H-${each.h}<br/>F-${each.f}</div > `;
+                jj++;
+            }
+            tmpHtml += `</div >`;
+            ii++;
+        }
+        document.getElementById("gridMain").innerHTML = tmpHtml;
+    }
+</script>
