@@ -1,0 +1,40 @@
+<script>
+    //let arr = [75, 105, 120, 75, 90, 135];
+    let arr = [7, 10, 12, 7, 9, 14, 15, 16, 25, 20, 4];
+    //330 // 75+120.
+    function maxSubsetSumNoAdjacentRecursive(array) {
+        return dfs(array, array.length - 1);
+    }
+    function dfs(array, n) {
+        if (n == 0) {
+            return array[n];
+        }
+        if (n < 0) {
+            return 0;
+        }
+        let pick = array[n] + dfs(array, n - 2);
+        let notPick = 0 + dfs(array, n - 1);
+
+        return Math.max(pick, notPick);
+    }
+    console.log(maxSubsetSumNoAdjacentRecursive(arr));
+    function maxSubsetSumNoAdjacentDP(array) {
+        let dp = new Array(array.length).fill(-1);
+        return dfsDP(array, array.length - 1, dp);
+    }
+    function dfsDP(array, n, dp) {
+        if (n == 0) {
+            return array[n];
+        }
+        if (n < 0) {
+            return 0;
+        }
+        if (dp[n] != -1) return dp[n];
+        let pick = array[n] + dfs(array, n - 2);
+        let notPick = 0 + dfs(array, n - 1);
+
+        return dp[n] = Math.max(pick, notPick);
+    }
+    console.log(maxSubsetSumNoAdjacentDP(arr));
+
+</script>

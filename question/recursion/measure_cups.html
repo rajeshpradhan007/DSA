@@ -1,3 +1,6 @@
+<body>
+
+</body>
 <script>
     let cups = [
         [200, 210],
@@ -7,42 +10,72 @@
     let high = 2300;
     let low = 2100;
 
-    function isMeasureable() {
-        let arr = new Array(cups.length).fill(0);
-        console.log(arr);
-        console.log(helper(arr, 0));
+    function isMeasureable(cups, high, low) {
+        let map = new Array(cups.length).fill(0);
+        return dfs(cups, high, low, map, 0);
     }
-    function helper(arr, idx) {
-        for(let i=0;i<arr.length;i++){
-
-            
-
+    function dfs(cups, high, low, map, cupIdx) {
+        //console.log(JSON.stringify(map), cupIdx);
+        if (cupIdx >= cups.length) {
+            return false
         }
-        //return false
-        //console.log(isInRange(arr));
-    
-    }
-    function isOk(arr) {
-        let minSum = 0;
-        let maxSum = 0;
-        for (let i = 0; i < arr.length; i++) {
-            minSum += cups[i][0] * arr[i];
-            maxSum += cups[i][1] * arr[i];
 
+        let res = checkMesurement(cups, high, low, map);
+        if (res == "OK") {
+            //console.log("found", map);
+            return true
         }
-        if (minSum < low && maxSum <= high) return true
+        if (res == "MORE") {
+            return false
+        }
+
+        map[cupIdx]++;
+        if (!dfs(cups, high, low, map, cupIdx)) {
+            map[cupIdx]--;
+            return dfs(cups, high, low, map, cupIdx + 1);
+        } else {
+            return true;
+        }
+
+
+
+
         return false;
     }
-    function isInRange(arr) {
-        let minSum = 0;
-        let maxSum = 0;
-        for (let i = 0; i < arr.length; i++) {
-            minSum += cups[i][0] * arr[i];
-            maxSum += cups[i][1] * arr[i];
-
+    function checkMesurement(cups, high, low, map) {
+        let curLow = 0;
+        let curHigh = 0;
+        //console.log(map);
+        for (let i = 0; i < map.length; i++) {
+            let val = map[i];
+            curLow += cups[i][0] * val;
+            curHigh += cups[i][1] * val;
         }
-        if ((low < minSum && minSum < high) && (low < maxSum && maxSum < high)) return true
-        return false;
+        // console.log(curLow, curHigh);
+        if (low <= curLow && curLow < high && curHigh <= high && curLow < curHigh) {
+            console.log("OK");
+            console.log(curLow, curHigh);
+            return "OK"
+        } else if (low > curLow) {
+            return "LESS";
+        } else {
+            return "MORE";
+        }
+
     }
-    console.log(isMeasureable());
+
+
+    console.log(isMeasureable(cups, high, low));
+
+    // console.log(isMeasureable([
+    //     [50, 65],
+    //     [100, 120],
+    //     [20, 40],
+    //     [10, 15],
+    //     [400, 500],
+    //     [300, 350],
+    //     [10, 25]
+    // ], 3300, 3000));
+
+
 </script>
