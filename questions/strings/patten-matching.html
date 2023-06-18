@@ -1,0 +1,88 @@
+<html>
+
+<body>
+
+    <script>
+        function isPatternMatch(pattern, word) {
+
+            let map = {};
+            dfs(word, pattern, map, 0, word);
+        }
+        function dfs2(word, pattern, map, pIdx, Oword) {
+            if (pattern.length == pIdx) {
+                if (word.length == 0) {
+                    console.log(Object.keys(map).length, pattern.length);
+                    console.log("return", map, word, pIdx);
+
+                    let tmp = [];
+                    for (let i = 0; i < pattern.length; i++) {
+                        tmp.push(map[pattern[i]]);
+                    }
+                    console.log(tmp.join(""));
+                }
+
+                return
+            }
+            let pa = pattern[pIdx];
+
+            if (map[pa]) {
+                if (word.length >= map[pa].length) {
+                    let left = word.slice(0, map[pa].length);
+                    let right = word.slice(map[pa].length);
+                    if (left == map[pa]) {
+                        dfs(right, pattern, map, pIdx + 1, Oword);
+                    }
+
+                }
+
+            } else {
+                for (let i = 1; i <= word.length; i++) {
+                    let left = word.slice(0, i);
+                    let right = word.slice(i);
+                    map[pa] = left;
+                    dfs(right, pattern, map, pIdx + 1, Oword);
+                    delete map[pa];
+                }
+            }
+        }
+        function dfs(pattern, string, map, pIdx, OString) {
+            console.log(map)
+            if (pattern.length == pIdx) {
+                if (string.length == 0) {
+                    console.log("found");
+                }
+                return
+            }
+
+            let pa = pattern[pIdx];
+            if (map[pa]) {
+                if (string.length > map[pa].length) {
+                    let left = string.slice(0, map[pa].length);
+                    let right = string.slice(map[pa].length);
+                    if (left == map[pa]) {
+                        dfs(pattern, right, map, pIdx + 1, OString);
+                    }
+                }
+
+            } else {
+                for (let i = 1; i <= string.length; i++) {
+                    let left = string.slice(0, i);
+                    let right = string.slice(i);
+                    map[pa] = left;
+                    dfs(pattern, right, map, pIdx + 1, OString);
+                    delete map[pa];
+                }
+            }
+        }
+
+        //console.log(isPatternMatch('ababc', 'raprraprku'));
+        //console.log(isPatternMatch('aba', 'rajprabra'));
+        //console.log(isPatternMatch('abaa', 'rprk'));
+        console.log(isPatternMatch('gogopowerrangergogopowerranger', 'xxyxxy'));
+
+
+
+    </script>
+</body>
+
+</html>

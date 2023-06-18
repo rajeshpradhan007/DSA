@@ -1,0 +1,82 @@
+<body>
+
+</body>
+<script>
+    let cups = [
+        [200, 210],
+        [450, 465],
+        [800, 850]
+    ];
+    let high = 2300;
+    let low = 2100;
+
+    function isMeasureable(cups, high, low) {
+        let map = new Array(cups.length).fill(0);
+        //return dfs(cups, high, low, map, 0);
+        let foundRes = { res: 0 };
+        let storedValues = {};
+        let qq = dfs(cups, high, low, 0, 0, 0, storedValues, map);
+
+        console.log(JSON.stringify(storedValues));
+        return qq;
+    }
+    function dfs(measuringCups, high, low, curHigh, curLow, idx, storedValues, map) {
+        let key = curHigh + ":" + curLow;
+        if (storedValues[key] == true) return false;
+        if (curLow > high) {
+            return false;
+        }
+        if (curLow >= low && curLow < high && curHigh <= high && low < curHigh) {
+            return true
+        }
+        for (let i = 0; i < measuringCups.length; i++) {
+            if (dfs(measuringCups, high, low, curHigh + measuringCups[i][1], curLow + measuringCups[i][0], idx, storedValues, map)) {
+                return true
+            }
+        }
+        storedValues[key] = true;
+        return false
+
+    }
+    function isOk(measuringCups, high, low, map, storedValues, idx) {
+
+        let key = JSON.stringify(map);
+        let curHigh = 0;
+        let curLow = 0;
+
+        for (let i = 0; i < measuringCups.length; i++) {
+            curLow += map[i] * measuringCups[i][0];
+            curHigh += map[i] * measuringCups[i][1];
+        }
+        //}
+
+
+
+        let response = "";
+        //console.log(curLow,curHigh,map);
+        if (curLow >= low && curLow < high && curHigh <= high && low < curHigh) {
+            response = "OK";
+        } else if (curLow <= low && curHigh <= high) {
+            response = "LESS";
+        } else {
+            response = "MORE";
+        }
+        storedValues[key] = [[curLow, curHigh], response];
+        return response;
+    }
+
+
+    console.log(isMeasureable(cups, high, low));
+
+    console.log(isMeasureable([
+        [50, 65],
+        [100, 120],
+        [20, 40],
+        [10, 15],
+        [400, 500],
+        [300, 350],
+        [10, 25]
+    ], 3300, 3000));
+
+
+</script>

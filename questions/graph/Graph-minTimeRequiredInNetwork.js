@@ -1,6 +1,5 @@
 module.exports = {
-    
-    
+    /*
 function minTimeRequiredInNetworkV1(arr) {
         let matrix={};
         let list={};
@@ -55,5 +54,5 @@ function minTimeRequiredInNetworkV1(arr) {
       	min.min-=parseInt(toBeRemoved);
       }
     }
-
-}
+    */
+};
