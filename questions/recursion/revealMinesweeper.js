@@ -1,12 +1,10 @@
 function revealMinesweeper(board, row, column) {
-    // Write your code here.
     if (board[row][column] == "M") {
         board[row][column] = "X";
         return board;
     }
     let map = new Set();
     dfs(board, row, column, map);
-    console.log(map);
     return board;
 }
 function dfs(board, i, j, map) {
@@ -37,7 +35,7 @@ function dfs(board, i, j, map) {
             [-1, 1],
         ]) {
             if (
-                isValid(board, i + set[0], j + set[1], map) &&
+                isValid(board, i + set[0], j + set[1]) &&
                 board[i + set[0]][j + set[1]] == "M"
             ) {
                 count++;
@@ -46,8 +44,10 @@ function dfs(board, i, j, map) {
     }
     if (count == 0) {
         board[i][j] = "0";
+    } else {
+        board[i][j] = String(count);
+        return;
     }
-    console.log(count);
     for (let set of [
         [0, 1],
         [1, 1],
@@ -59,23 +59,15 @@ function dfs(board, i, j, map) {
         [-1, 1],
     ]) {
         if (
-            isValid(board, i + set[0], j + set[1], map) &&
+            isValid(board, i + set[0], j + set[1]) &&
             board[i + set[0]][j + set[1]] == "H"
         ) {
-            console.log(i + set[0], j + set[1]);
             dfs(board, i + set[0], j + set[1], map);
         }
     }
-    //return count;
 }
-function isValid(board, i, j, map) {
-    if (
-        i < 0 ||
-        j < 0 ||
-        i >= board.length ||
-        j >= board[0].length ||
-        map.has(i + "-" + j)
-    )
+function isValid(board, i, j) {
+    if (i < 0 || j < 0 || i >= board.length || j >= board[0].length)
         return false;
     return true;
 }

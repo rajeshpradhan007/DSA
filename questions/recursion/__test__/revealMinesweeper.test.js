@@ -16,49 +16,67 @@ describe("first", () => {
             ["0", "0", "0", "0", "0"],
         ];
         const actual = program.revealMinesweeper(board, row, column);
-        console.log(actual);
-        //expect(actual).toBe(expected);
+        expect(actual).toStrictEqual(expected);
     });
-    /*
+
     test("ew", () => {
-        let params = {
-            board: [
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "5", "3", "3", "5", "M", "M", "M"],
-                ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
-                ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-            ],
-            row: 5,
-            column: 5,
-        };
-        const actual = program.revealMinesweeper(...params);
-        expect(actual).toBe(expected);
+        const board = [
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "5", "3", "3", "5", "M", "M", "M"],
+            ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
+            ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+        ];
+        const row = 5;
+        const column = 5;
+        const expected = [
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "5", "3", "3", "5", "M", "M", "M"],
+            ["M", "M", "M", "3", "0", "0", "3", "M", "M", "M"],
+            ["M", "M", "M", "5", "3", "3", "5", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+        ];
+        const actual = program.revealMinesweeper(board, row, column);
+        expect(actual).toStrictEqual(expected);
     });
     test("ew", () => {
-        let params = {
-            board: [
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
-                ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
-                ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-                ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
-            ],
-            row: 5,
-            column: 5,
-        };
-        const actual = program.revealMinesweeper(...params);
-        expect(actual).toBe(expected);
+        const board = [
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
+            ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
+            ["M", "M", "M", "H", "H", "H", "H", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+        ];
+        const row = 5;
+        const column = 5;
+        const expected = [
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "5", "3", "3", "5", "M", "M", "M"],
+            ["M", "M", "M", "3", "0", "0", "3", "M", "M", "M"],
+            ["M", "M", "M", "5", "3", "3", "5", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+            ["M", "M", "M", "M", "M", "M", "M", "M", "M", "M"],
+        ];
+        const actual = program.revealMinesweeper(board, row, column);
+        expect(actual).toStrictEqual(expected);
     });
-    */
 });

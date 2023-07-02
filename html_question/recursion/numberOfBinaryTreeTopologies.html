@@ -1,0 +1,42 @@
+<script>
+    class Node {
+        constructor(n) {
+            this.left = null;
+            this.right = null;
+            this.value = n
+        }
+    }
+    class Tree {
+        constructor() {
+            this.root = {};
+        }
+    }
+    function numberOfBinaryTreeTopologies(n) {
+        return dfs(n)
+    }
+    function dfs(n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 0) {
+            return 0;
+        }
+        let left = 0;
+        let right = 0;
+        left = dfs(n - 1);
+        right = dfs(n - 1);
+        // console.log(left, right, left + right);
+        console.log("n==>", n);
+        for (let i = n - 2; i >= 1; i--) {
+            //console.log(i);
+            left = left + dfs(i);
+            right = right + dfs(i - 1);
+            // console.log(left);
+        }
+
+        return left + right;
+    }
+    console.log(numberOfBinaryTreeTopologies(5));
+    //numberOfBinaryTreeTopologies(4)
+    //numberOfBinaryTreeTopologies(5)
+</script>
