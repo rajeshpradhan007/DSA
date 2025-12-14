@@ -1,56 +1,57 @@
+Password
 <script>
-class Node{
-	constructor(el){
-  	this.data=el;
-    this.children=[];
-  }
-}
-class Tree{
-	constructor(){
-		this.root=null;
-	}
-	push(node,nodes){
-		if(this.root==null){
-			let newNode=new Node(nodes[0]);
-			this.root=newNode;
-		}else{
-			for(let i in nodes){
-				let newNode=new Node(nodes[i]);
-				node.children.push(newNode)
-			}
-		}
-	}
-	bfs(node){
-		let queue=[node];
-		while(queue){
-			let n=queue.shift();
-			if(n==null) return;
-			console.log(n.data);
-			
-			for(let i in n.children){
-				queue.push(n.children[i]);
-			}
-		}
-	}
-	dfs(node){
-		console.log(node.data);
-		for(let i in node.children){
-			this.dfs(node.children[i]);
-		}
-	}
-}
-let tt=new Tree();
-//console.log(tt);
-tt.push(tt.root,[1]);
-//console.log(tt);
-tt.push(tt.root,[2,3,4]);
-//console.log(tt);
+    class Node {
+        constructor(el) {
+            this.data = el;
+            this.children = [];
+        }
+    }
+    class Tree {
+        constructor() {
+            this.root = null;
+        }
+        push(node, nodes) {
+            if (this.root == null) {
+                let newNode = new Node(nodes[0]);
+                this.root = newNode;
+            } else {
+                for (let i in nodes) {
+                    let newNode = new Node(nodes[i]);
+                    node.children.push(newNode)
+                }
+            }
+        }
+        bfs(node) {
+            let queue = [node];
+            while (queue) {
+                let n = queue.shift();
+                if (n == null) return;
+                console.log(n.data);
 
-tt.push(tt.root.children[0],[5,6]);
-tt.push(tt.root.children[1],[7,8]);
-tt.push(tt.root.children[0].children[0],[9,10]);
-tt.push(tt.root.children[0].children[1],[11,12]);
-console.log(tt);
-//tt.bfs(tt.root);
-tt.dfs(tt.root);
+                for (let i in n.children) {
+                    queue.push(n.children[i]);
+                }
+            }
+        }
+        dfs(node) {
+            console.log(node.data);
+            for (let i in node.children) {
+                this.dfs(node.children[i]);
+            }
+        }
+    }
+    let tt = new Tree();
+    //console.log(tt);
+    tt.push(tt.root, [1]);
+    //console.log(tt);
+    tt.push(tt.root, [2, 3, 4]);
+    //console.log(tt);
+
+    tt.push(tt.root.children[0], [5, 6]);
+    tt.push(tt.root.children[1], [7, 8]);
+    tt.push(tt.root.children[0].children[0], [9, 10]);
+    tt.push(tt.root.children[0].children[1], [11, 12]);
+    console.log(tt);
+    //tt.bfs(tt.root);
+    tt.dfs(tt.root);
 </script>
